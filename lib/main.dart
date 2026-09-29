@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: ListView.builder(
         itemBuilder: (context, index) {
-          return Text("data ke-");
+          return Text("data ke-$index");
         },
       )
     );
