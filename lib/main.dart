@@ -42,28 +42,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Daftar Teknologi"),
       ),
-      body: ListView.separated(
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.all(20),
-        reverse: true,
-        itemCount: widget.data.length,
-        itemBuilder: (context, index) {
-          return Container(
-            width: 150,
-            height: 100,
-            color: Colors.amber,
-            child: Center(
-              child: Text(
-                widget.data[index],
-              ),
-            ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const SizedBox(width: 10);
-        },
-      ),
+      body: GridView(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      )
     );
   }
 }
