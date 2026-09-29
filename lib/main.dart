@@ -43,7 +43,21 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Daftar Teknologi"),
       ),
       body: GridView(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+        children: [
+          Container(
+            color: Colors.amber,
+          ),
+          Container(
+            color: Colors.red,
+          ),
+          Container(
+            color: Colors.cyan,
+          ),
+          Container(
+            color: Colors.pinkAccent,
+          )
+        ],
       )
     );
   }
