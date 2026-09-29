@@ -50,19 +50,18 @@ class _HomePageState extends State<HomePage> {
         itemCount: widget.data.length,
         itemBuilder: (context, index) {
           return Container(
-            color: Colors.amber,
-            width: 100,
+            width: 150,
             height: 100,
-          );
-          return ListTile(
-            leading: const Icon(Icons.computer),
-            title: Text(widget.data[index]),
-            subtitle: const Text('Sigit Programmer'),
-            trailing: const Icon(Icons.delete),
+            color: Colors.amber,
+            child: Center(
+              child: Text(
+                widget.data[index],
+              ),
+            ),
           );
         },
         separatorBuilder: (context, index) {
-          return const Divider();
+          return const SizedBox(width: 10);
         },
       ),
     );
