@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,6 +19,11 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  final data = [
+    'next js',
+    'flutter',
+    'expres'
+  ];
   State<HomePage> createState() => _HomePageState();
 }
 
@@ -28,11 +32,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        itemCount: 20,
+        itemCount: widget.data.length,
         itemBuilder: (context, index) {
-          final no = index + 15;
-          return Text("data ke-$no");
-        },
+           return Text(widget.data[index]);
+        }
       )
     );
   }
