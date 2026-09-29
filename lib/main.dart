@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
         itemCount: widget.data.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: const Icon(Icons.language),
+            leading: const Icon(Icons.computer),
             title: Text(widget.data[index]),
             subtitle: const Text('Sigit Programmer'),
             trailing: const Icon(Icons.delete),
