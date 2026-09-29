@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
         spacing: 20,
         runSpacing: 20,
         alignment: WrapAlignment.spaceBetween,
+        runAlignment: WrapAlignment.spaceBetween,
         children: [
           Chip(label: Text("Sigit")),
           Chip(label: Text("Sigit")),
