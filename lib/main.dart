@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
+          spacing: 20,
           children: [
             Container(
               color: Colors.amber,
