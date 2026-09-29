@@ -42,60 +42,16 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Daftar Teknologi"),
       ),
-      body: GridView.extent(
-        maxCrossAxisExtent: 300,
-        children: [
-          GridTile(
-            header: Icon(Icons.favorite),
-            footer: Center(child: Text("Favorite"),),
-            child: Card(),
-          ),
-          GridTile(
-            header: Icon(Icons.favorite),
-            footer: Center(child: Text("Favorite"),),
-            child: Card(),
-          ),
-          GridTile(
-            header: Icon(Icons.favorite),
-            footer: Center(child: Text("Favorite"),),
-            child: Card(),
-          ),
-          GridTile(
-            header: Icon(Icons.favorite),
-            footer: Center(child: Text("Favorite"),),
-            child: Card(),
-          ),
-          GridTile(
-            header: Icon(Icons.favorite),
-            footer: Center(child: Text("Favorite"),),
-            child: Card(),
-          ),
-          GridTile(
-            header: Icon(Icons.favorite),
-            footer: Center(child: Text("Favorite"),),
-            child: Card(),
-          ),
-          GridTile(
-            header: Icon(Icons.favorite),
-            footer: Center(child: Text("Favorite"),),
-            child: Card(),
-          ),
-          GridTile(
-            header: Icon(Icons.favorite),
-            footer: Center(child: Text("Favorite"),),
-            child: Card(),
-          ),
-          GridTile(
-            header: Icon(Icons.favorite),
-            footer: Center(child: Text("Favorite"),),
-            child: Card(),
-          ),
-          GridTile(
-            header: Icon(Icons.favorite),
-            footer: Center(child: Text("Favorite"),),
-            child: Card(),
-          ),
-        ],
+      body: GridView.builder(
+        gridDelegate:
+        SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 20,
+          crossAxisSpacing: 20
+        ),
+        itemBuilder: (context, index) {
+          return Container(color: Colors.pinkAccent,);
+        }
       )
     );
   }
