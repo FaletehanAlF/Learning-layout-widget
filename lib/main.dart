@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
             height: 100,
           ),
           Container(
-            color: Colors.purple,
+            color: Colors.cyan,
             height: 100,
           ),
           Container(
