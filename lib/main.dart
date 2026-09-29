@@ -39,17 +39,21 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        physics: BouncingScrollPhysics(),
+      body: ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.all(20),
+        reverse: true,
         itemCount: widget.data.length,
         itemBuilder: (context, index) {
           return ListTile(
             leading: const Icon(Icons.language),
             title: Text(widget.data[index]),
-            subtitle: const Text('Ini deskripsi'),
+            subtitle: const Text('Sigit Programmer'),
             trailing: const Icon(Icons.delete),
-
           );
+        },
+        separatorBuilder: (context, index) {
+          return const Divider();
         },
       ),
     );
