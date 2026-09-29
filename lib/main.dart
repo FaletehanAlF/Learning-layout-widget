@@ -28,8 +28,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
+        itemCount: 20,
         itemBuilder: (context, index) {
-          return Text("data ke-$index");
+          final no = index + 1;
+          return Text("data ke-$no");
         },
       )
     );
