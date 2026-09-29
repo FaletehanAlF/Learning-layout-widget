@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: GridView(
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent
-        (maxCrossAxisExtent: 200),
+        (maxCrossAxisExtent: 200 , crossAxisSpacing: 10, mainAxisSpacing: 20),
         padding: EdgeInsets.all(20),
         scrollDirection: Axis.horizontal,
         children: [
