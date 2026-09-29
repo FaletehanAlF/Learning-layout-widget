@@ -53,6 +53,21 @@ class _HomePageState extends State<HomePage> {
             footer: Center(child: Text("Favorite"),),
             child: Card(),
           ),
+          GridTile(
+            header: Icon(Icons.favorite),
+            footer: Center(child: Text("Favorite"),),
+            child: Card(),
+          ),
+          GridTile(
+            header: Icon(Icons.favorite),
+            footer: Center(child: Text("Favorite"),),
+            child: Card(),
+          ),
+          GridTile(
+            header: Icon(Icons.favorite),
+            footer: Center(child: Text("Favorite"),),
+            child: Card(),
+          ),
           Container(
             color: Colors.amber,
           ),
