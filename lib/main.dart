@@ -43,8 +43,38 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Daftar Teknologi"),
       ),
       body: GridView.extent(
-        maxCrossAxisExtent: 2,
+        maxCrossAxisExtent: 300,
         children: [
+          GridTile(
+            header: Icon(Icons.favorite),
+            footer: Center(child: Text("Favorite"),),
+            child: Card(),
+          ),
+          GridTile(
+            header: Icon(Icons.favorite),
+            footer: Center(child: Text("Favorite"),),
+            child: Card(),
+          ),
+          GridTile(
+            header: Icon(Icons.favorite),
+            footer: Center(child: Text("Favorite"),),
+            child: Card(),
+          ),
+          GridTile(
+            header: Icon(Icons.favorite),
+            footer: Center(child: Text("Favorite"),),
+            child: Card(),
+          ),
+          GridTile(
+            header: Icon(Icons.favorite),
+            footer: Center(child: Text("Favorite"),),
+            child: Card(),
+          ),
+          GridTile(
+            header: Icon(Icons.favorite),
+            footer: Center(child: Text("Favorite"),),
+            child: Card(),
+          ),
           GridTile(
             header: Icon(Icons.favorite),
             footer: Center(child: Text("Favorite"),),
