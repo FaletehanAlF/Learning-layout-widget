@@ -48,6 +48,10 @@ class _HomePageState extends State<HomePage> {
             width: 200,
             height: 150,
             color: Colors.amber,
+          ),
+          IconButton(
+            onPressed: (){},
+            icon: Icon(Icons.bookmark),
           )
         ],
       )
