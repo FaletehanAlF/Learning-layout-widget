@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
           ),
           IconButton(
             onPressed: (){},
-            icon: Icon(Icons.bookmark),
+            icon: Icon(Icons.favorite_border),
           )
         ],
       )
