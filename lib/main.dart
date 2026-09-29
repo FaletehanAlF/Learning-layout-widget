@@ -46,7 +46,13 @@ class _HomePageState extends State<HomePage> {
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent
         (maxCrossAxisExtent: 200),
         padding: EdgeInsets.all(20),
+        scrollDirection: Axis.horizontal,
         children: [
+          GridTile(
+            header: Icon(Icons.favorite),
+            footer: Center(child: Text("Favorite"),),
+            child: Card(),
+          ),
           Container(
             color: Colors.amber,
           ),
