@@ -42,18 +42,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Daftar Teknologi"),
       ),
-      body: GridView.builder(
-        gridDelegate:
-        SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20
-        ),
-        physics: BouncingScrollPhysics(),
-        itemCount: 20,
-        itemBuilder: (context, index) {
-          return Container(color: Colors.pinkAccent,);
-        }
+      body: Row(
+        children: [
+          Chip(label: Text("Flutter")),
+          Chip(label: Text("Flutter")),
+          Chip(label: Text("Flutter")),
+          Chip(label: Text("Flutter")),
+          Chip(label: Text("Flutter"))
+        ],
       )
     );
   }
