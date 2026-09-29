@@ -48,6 +48,14 @@ class _HomePageState extends State<HomePage> {
           Container(
             color: Colors.green,
             height: 100,
+          ),
+          Container(
+            color: Colors.purple,
+            height: 100,
+          ),
+          Container(
+            color: Colors.orange,
+            height: 100,
           )
         ],
       )
