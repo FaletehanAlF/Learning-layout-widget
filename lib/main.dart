@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisSpacing: 20,
           crossAxisSpacing: 20
         ),
+        itemCount: 20,
         itemBuilder: (context, index) {
           return Container(color: Colors.pinkAccent,);
         }
