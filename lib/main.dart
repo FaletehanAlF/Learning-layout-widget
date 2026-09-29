@@ -65,18 +65,6 @@ class _HomePageState extends State<HomePage> {
             footer: Center(child: Text("Favorite"),),
             child: Card(),
           ),
-          Container(
-            color: Colors.amber,
-          ),
-          Container(
-            color: Colors.red,
-          ),
-          Container(
-            color: Colors.cyan,
-          ),
-          Container(
-            color: Colors.pinkAccent,
-          )
         ],
       )
     );
