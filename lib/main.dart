@@ -42,45 +42,13 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Daftar Teknologi"),
       ),
-      body: Wrap(
-        spacing: 20,
-        runSpacing: 20,
-        alignment: WrapAlignment.spaceBetween,
-        runAlignment: WrapAlignment.spaceBetween,
-        direction: Axis.horizontal,
+      body: Stack(
         children: [
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit")),
-          Chip(label: Text("Sigit"))
+          Container(
+            width: 200,
+            height: 150,
+            color: Colors.amber,
+          )
         ],
       )
     );
