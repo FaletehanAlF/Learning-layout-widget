@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.all(10),
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag ,
         reverse: true,
+        scrollDirection: Axis.vertical,
         children: [
           Container(
             color: Colors.amber,
