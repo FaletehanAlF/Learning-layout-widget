@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
+        physics: BouncingScrollPhysics(),
         children: [
           Container(
             color: Colors.amber,
@@ -62,3 +63,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
