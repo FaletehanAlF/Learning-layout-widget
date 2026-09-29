@@ -27,55 +27,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.all(10),
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag ,
-        reverse: true,
-        scrollDirection: Axis.horizontal,
-        children: [
-          Container(
-            color: Colors.amber,
-            height: 100,
-            width: 100,
-          ),
-          SizedBox(height: 20,),
-          Container(
-            color: Colors.red,
-            height: 100,
-            width: 100,
-          ),
-          SizedBox(height: 20,),
-          Container(
-            color: Colors.purple,
-            height: 100,
-            width: 100,
-          ),
-          SizedBox(height: 20,),
-          Container(
-            color: Colors.blue,
-            height: 100,
-            width: 100,
-          ),
-          SizedBox(height: 20,),
-          Container(
-            color: Colors.green,
-            height: 100,
-            width: 100,
-          ),
-          SizedBox(height: 20,),
-          Container(
-            color: Colors.cyan,
-            height: 100,
-            width: 100,
-          ),
-          SizedBox(height: 20,),
-          Container(
-            color: Colors.orange,
-            height: 100,
-            width: 100,
-          )
-        ],
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          return Text("data ke-");
+        },
       )
     );
   }
