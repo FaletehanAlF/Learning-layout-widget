@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
+        physics: BouncingScrollPhysics(),
         itemCount: widget.data.length,
         itemBuilder: (context, index) {
           return ListTile(
@@ -47,7 +48,7 @@ class _HomePageState extends State<HomePage> {
             title: Text(widget.data[index]),
             subtitle: const Text('Ini deskripsi'),
             trailing: const Icon(Icons.delete),
-            
+
           );
         },
       ),
