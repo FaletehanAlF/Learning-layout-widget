@@ -42,8 +42,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Daftar Teknologi"),
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
+      body: GridView.extent(
+        maxCrossAxisExtent: 2,
         children: [
           GridTile(
             header: Icon(Icons.favorite),
