@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Wrap(
         spacing: 20,
+        runSpacing: 20,
         children: [
           Chip(label: Text("Sigit")),
           Chip(label: Text("Sigit")),
