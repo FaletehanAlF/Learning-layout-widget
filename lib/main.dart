@@ -44,10 +44,16 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView.separated(
         physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(20),
         reverse: true,
         itemCount: widget.data.length,
         itemBuilder: (context, index) {
+          return Container(
+            color: Colors.amber,
+            width: 100,
+            height: 100,
+          );
           return ListTile(
             leading: const Icon(Icons.computer),
             title: Text(widget.data[index]),
