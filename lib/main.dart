@@ -42,13 +42,27 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Daftar Teknologi"),
       ),
-      body: Row(
+      body: Wrap(
+        spacing: 20,
         children: [
-          Chip(label: Text("Flutter")),
-          Chip(label: Text("Flutter")),
-          Chip(label: Text("Flutter")),
-          Chip(label: Text("Flutter")),
-          Chip(label: Text("Flutter"))
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit")),
+          Chip(label: Text("Sigit"))
         ],
       )
     );
