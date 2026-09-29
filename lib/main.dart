@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.all(10),
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag ,
+        reverse: true,
         children: [
           Container(
             color: Colors.amber,
