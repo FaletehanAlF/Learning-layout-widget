@@ -44,6 +44,8 @@ class _HomePageState extends State<HomePage> {
       ),
       body: GridView(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+        physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.all(20),
         children: [
           Container(
             color: Colors.amber,
