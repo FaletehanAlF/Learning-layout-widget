@@ -59,6 +59,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Positioned(
+            top: 10,
+            left: 10,
             child: Chip(label: Text("New")),
           )
         ],
