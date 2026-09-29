@@ -49,9 +49,11 @@ class _HomePageState extends State<HomePage> {
             height: 150,
             color: Colors.amber,
           ),
-          IconButton(
-            onPressed: (){},
-            icon: Icon(Icons.favorite_border),
+          Positioned(
+            child: IconButton(
+              onPressed: (){},
+              icon: Icon(Icons.favorite_border),
+            ),
           )
         ],
       )
