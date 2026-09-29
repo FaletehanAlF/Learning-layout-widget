@@ -39,31 +39,37 @@ class _HomePageState extends State<HomePage> {
             height: 100,
             width: 100,
           ),
+          SizedBox(height: 20,),
           Container(
             color: Colors.red,
             height: 100,
             width: 100,
           ),
+          SizedBox(height: 20,),
           Container(
             color: Colors.purple,
             height: 100,
             width: 100,
           ),
+          SizedBox(height: 20,),
           Container(
             color: Colors.blue,
             height: 100,
             width: 100,
           ),
+          SizedBox(height: 20,),
           Container(
             color: Colors.green,
             height: 100,
             width: 100,
           ),
+          SizedBox(height: 20,),
           Container(
             color: Colors.cyan,
             height: 100,
             width: 100,
           ),
+          SizedBox(height: 20,),
           Container(
             color: Colors.orange,
             height: 100,
