@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.all(10),
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag ,
         children: [
           Container(
             color: Colors.amber,
@@ -63,4 +65,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
