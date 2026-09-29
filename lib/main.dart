@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: 20,
         itemBuilder: (context, index) {
-          final no = index + 1;
+          final no = index + 15;
           return Text("data ke-$no");
         },
       )
