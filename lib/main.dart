@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: ListView(
         physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.all(10),
         children: [
           Container(
             color: Colors.amber,
