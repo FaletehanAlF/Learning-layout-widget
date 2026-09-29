@@ -28,7 +28,16 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Row(
         children: [
-          
+          Container(
+            color: Colors.amber,
+            width: 100,
+            height: 100,
+          ),
+          Container(
+            color: Colors.amber,
+            width: 100,
+            height: 100,
+          )
         ],
       ),
     );
