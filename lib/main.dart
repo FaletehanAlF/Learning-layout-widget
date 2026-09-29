@@ -50,10 +50,16 @@ class _HomePageState extends State<HomePage> {
             color: Colors.amber,
           ),
           Positioned(
+            top: 10,
+            right: 10,
+            left: 10,
             child: IconButton(
               onPressed: (){},
               icon: Icon(Icons.favorite_border),
             ),
+          ),
+          Positioned(
+            child: Chip(label: Text("New")),
           )
         ],
       )
