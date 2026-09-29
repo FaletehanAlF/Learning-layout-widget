@@ -42,11 +42,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Daftar Teknologi"),
       ),
-      body: GridView(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent
-        (maxCrossAxisExtent: 200 , crossAxisSpacing: 10, mainAxisSpacing: 20),
-        padding: EdgeInsets.all(20),
-        scrollDirection: Axis.horizontal,
+      body: GridView.count(
+        crossAxisCount: 2,
         children: [
           GridTile(
             header: Icon(Icons.favorite),
