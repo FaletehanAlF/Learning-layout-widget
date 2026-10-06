@@ -11,74 +11,90 @@ class WelcomePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              height: 300,
+            // Area navy di bagian atas, bagian bawahnya melengkung.
+            // Avatar diletakkan menimpa lengkungan navy dengan Stack.
+            SizedBox(
+              height: 330,
               width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xFF18243A),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(120),
-                  bottomRight: Radius.circular(120),
-                ),
-              ),
-              child: Center(
-                child: CircleAvatar(
-                  radius: 70,
-                  backgroundImage: NetworkImage(
-                    'https://i.pinimg.com/736x/66/e2/24/66e224c075720a95f01747f34b32be17.jpg',
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Container(
+                    height: 280,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF1C2340),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(130),
+                        bottomRight: Radius.circular(130),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 60),
-
-            const Text(
-              'Leafboard',
-              style: TextStyle(
-                fontSize: 34,
-                fontWeight: FontWeight.w600,
+                  CircleAvatar(
+                    radius: 48,
+                    backgroundColor: Colors.white,
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundImage: const NetworkImage(
+                        'https://i.pinimg.com/736x/66/e2/24/66e224c075720a95f01747f34b32be17.jpg',
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
 
             const SizedBox(height: 20),
 
+            const Text(
+              'Leafboard',
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(horizontal: 32),
               child: Text(
                 'A platform built for a new way of working',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                ),
+                style: TextStyle(fontSize: 13, color: Colors.black54),
               ),
             ),
 
             const Spacer(),
 
-            Container(
-              margin: const EdgeInsets.only(
-                left: 24,
-                right: 24,
-                bottom: 50,
-              ),
-              width: double.infinity,
-              height: 48,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
+            // Tombol hijau berbentuk pil, navigasi ke LoginPage
+            Padding(
+              padding: const EdgeInsets.only(bottom: 50),
+              child: SizedBox(
+                height: 44,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFB7F36E),
+                    foregroundColor: Colors.black87,
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
                     ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.arrow_forward,
-                  size: 18,
-                ),
-                label: const Text(
-                  'Get Started For Free',
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.arrow_forward, size: 16),
+                  label: const Text(
+                    'Get Started for Free',
+                    style: TextStyle(fontSize: 13),
+                  ),
                 ),
               ),
             ),
