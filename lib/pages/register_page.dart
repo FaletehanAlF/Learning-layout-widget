@@ -28,15 +28,8 @@ class RegisterPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 22,
-                    height: 22,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF1C2340),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(Icons.eco, size: 14, color: Color(0xFFB7F36E)),
-                  ),
+                  // Logo leaf hijau di kiri teks Leafboard
+                  const Icon(Icons.eco, size: 26, color: Color(0xFF58CC5A)),
                   const SizedBox(width: 8),
                   const Text(
                     'Leafboard',
