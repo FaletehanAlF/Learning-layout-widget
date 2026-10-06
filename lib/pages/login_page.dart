@@ -20,14 +20,14 @@ class LoginPage extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.eco,
-                    size: 20,
+                    size: 25,
                     color: Colors.green,
                   ),
                   const SizedBox(width: 5),
                   const Text(
                     'Leafboard',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 24,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
