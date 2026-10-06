@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
+import 'register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -204,6 +205,22 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {},
                     icon: const Icon(Icons.apple, size: 20, color: Colors.black87),
                     label: const Text('Sign up with Apple', style: TextStyle(color: Colors.black87)),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                // Link ke halaman Register
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RegisterPage()),
+                    );
+                  },
+                  child: const Text(
+                    "Don't have an account? Register",
+                    style: TextStyle(color: Colors.black54, fontSize: 12),
                   ),
                 ),
 
