@@ -211,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () {},
                     icon: Image.network(
-                      'https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png',
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP0LqqItjj6kjPy2bhfx_Cs3kIqIEesiN8aMbEXoL-zw&s',
                       width: 20,
                       height: 20,
                     ),
@@ -233,7 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () {},
                     icon: Image.network(
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Apple_logo_black.svg/512px-Apple_logo_black.svg.png',
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv_-CwxoQcTdL_h0fGDNwtqfo9y18Fu7cE-p9pvCJ23w&s',
                       width: 20,
                       height: 20,
                     ),

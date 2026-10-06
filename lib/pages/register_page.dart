@@ -149,7 +149,7 @@ class RegisterPage extends StatelessWidget {
                   ),
                   onPressed: () {},
                   icon: Image.network(
-                    'https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png',
+                    'https://yt3.googleusercontent.com/bAseQlKvNmjdLQrvYWm_q3QDp8C8YKyYI-nYJewgOkPi0JU1_3X9oFgjrEdzkOlXzLGFxFbnsw=s900-c-k-c0x00ffffff-no-rj',
                     width: 20,
                     height: 20,
                   ),
@@ -172,7 +172,7 @@ class RegisterPage extends StatelessWidget {
                   ),
                   onPressed: () {},
                   icon: Image.network(
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Apple_logo_black.svg/512px-Apple_logo_black.svg.png',
+                    'https://cdn-icons-png.flaticon.com/512/0/747.png',
                     width: 20,
                     height: 20,
                   ),

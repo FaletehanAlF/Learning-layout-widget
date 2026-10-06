@@ -34,24 +34,25 @@ class WelcomePage extends StatelessWidget {
                     ),
 
                     // Avatar naik ke atas agar menimpa lengkungan navy
+                    // Icon eco hijau di dalam lingkaran putih,
+                    // menumpuk di atas lengkungan area navy
                     SizedBox(
                       height: 48,
                       child: Transform.translate(
                         offset: const Offset(0, -48),
                         child: CircleAvatar(
-                          radius: 48,
+                          radius: 55,
                           backgroundColor: Colors.white,
-                          child: CircleAvatar(
-                            radius: 40,
-                            backgroundImage: const NetworkImage(
-                              'https://i.pinimg.com/736x/66/e2/24/66e224c075720a95f01747f34b32be17.jpg',
-                            ),
+                          child: const Icon(
+                            Icons.eco,
+                            size: 64,
+                            color: Color(0xFF58CC5A),
                           ),
                         ),
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 32),
 
                     const Text(
                       'Leafboard',
