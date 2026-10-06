@@ -45,7 +45,16 @@ class TodayPage extends StatelessWidget {
         child: const Icon(Icons.add, color: Colors.white),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
+        // LayoutBuilder untuk membaca lebar ruang yang tersedia
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Mobile: lebar penuh. Desktop/Web: batasi agar konten terpusat.
+            double maxWidth =
+                constraints.maxWidth >= 600 ? 480 : double.infinity;
+            return Center(
+              child: SizedBox(
+                width: maxWidth,
+                child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,6 +146,10 @@ class TodayPage extends StatelessWidget {
               const SizedBox(height: 80),
             ],
           ),
+        ),
+              ),
+            );
+          },
         ),
       ),
     );

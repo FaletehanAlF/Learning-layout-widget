@@ -38,7 +38,16 @@ class ProfilePage extends StatelessWidget {
         onTap: (index) => _onNavTap(context, index),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
+        // LayoutBuilder untuk membaca lebar ruang yang tersedia
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Mobile: lebar penuh. Desktop/Web: batasi agar konten terpusat.
+            double maxWidth =
+                constraints.maxWidth >= 600 ? 480 : double.infinity;
+            return Center(
+              child: SizedBox(
+                width: maxWidth,
+                child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
@@ -95,6 +104,10 @@ class ProfilePage extends StatelessWidget {
               ),
             ],
           ),
+        ),
+              ),
+            );
+          },
         ),
       ),
     );
