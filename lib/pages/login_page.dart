@@ -10,6 +10,15 @@ class LoginPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              const SizedBox(height: 50),
+
+              Row(
+                
+              )
+            ]
+          )
         )
       )
     );
