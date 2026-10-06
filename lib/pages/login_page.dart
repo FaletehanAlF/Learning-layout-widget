@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  // Menyimpan status password terlihat atau tidak
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +24,20 @@ class LoginPage extends StatelessWidget {
               children: [
                 const SizedBox(height: 50),
 
-                // Logo
+                // Logo Leafboard
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Icons.eco,
-                      size: 20,
-                      color: Colors.green,
+                    Container(
+                      width: 22,
+                      height: 22,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF1C2340),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.eco, size: 14, color: Color(0xFFB7F36E)),
                     ),
-                    const SizedBox(width: 5),
+                    const SizedBox(width: 8),
                     const Text(
                       'Leafboard',
                       style: TextStyle(
@@ -35,26 +48,21 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
 
                 const Text(
                   'Work without limits',
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.black54),
                 ),
 
-                const SizedBox(height: 55),
+                const SizedBox(height: 50),
 
-                // Email
+                // Label email
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Your email address',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                   ),
                 ),
 
@@ -63,123 +71,139 @@ class LoginPage extends StatelessWidget {
                 TextField(
                   decoration: InputDecoration(
                     hintText: 'email@gmail.com',
-                    hintStyle: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
+                    hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: const BorderSide(color: Color(0xFFE3E3E3)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: const BorderSide(color: Color(0xFFE3E3E3)),
                     ),
                   ),
                 ),
 
                 const SizedBox(height: 20),
 
-                // Password
+                // Label password
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Choose a password',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                   ),
                 ),
 
                 const SizedBox(height: 8),
 
                 TextField(
-                  obscureText: true,
+                  obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     hintText: 'min. 8 characters',
-                    hintStyle: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                    suffixIcon: const Icon(
-                      Icons.visibility_off_outlined,
-                      size: 18,
+                    hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        size: 18,
+                        color: Colors.grey,
+                      ),
+                      // Tukar status terlihat/tidaknya password
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: const BorderSide(color: Color(0xFFE3E3E3)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: const BorderSide(color: Color(0xFFE3E3E3)),
                     ),
                   ),
                 ),
 
                 const SizedBox(height: 20),
 
-                // Continue
+                // Tombol Continue, navigasi ke HomePage
                 SizedBox(
                   width: double.infinity,
                   height: 48,
                   child: ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.arrow_forward,
-                      size: 16,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFB7F36E),
+                      foregroundColor: Colors.black87,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      elevation: 0,
                     ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomePage(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.arrow_forward, size: 16),
                     label: const Text('Continue'),
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
 
-                // Divider
+                // Pemisah "or"
                 const Row(
                   children: [
-                    Expanded(
-                      child: Divider(),
-                    ),
+                    Expanded(child: Divider()),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Text(
-                        'or',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
-                        ),
-                      ),
+                      child: Text('or', style: TextStyle(fontSize: 12, color: Colors.grey)),
                     ),
-                    Expanded(
-                      child: Divider(),
-                    ),
+                    Expanded(child: Divider()),
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
 
-                // Google
                 SizedBox(
                   width: double.infinity,
                   height: 48,
                   child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      side: const BorderSide(color: Color(0xFFE3E3E3)),
+                    ),
                     onPressed: () {},
-                    icon: const Icon(
-                      Icons.g_mobiledata,
-                      size: 24,
-                    ),
-                    label: const Text(
-                      'Sign up with Google',
-                    ),
+                    icon: const Icon(Icons.g_mobiledata, size: 24, color: Colors.black87),
+                    label: const Text('Sign up with Google', style: TextStyle(color: Colors.black87)),
                   ),
                 ),
 
                 const SizedBox(height: 12),
 
-                // Apple
                 SizedBox(
                   width: double.infinity,
                   height: 48,
                   child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      side: const BorderSide(color: Color(0xFFE3E3E3)),
+                    ),
                     onPressed: () {},
-                    icon: const Icon(
-                      Icons.apple,
-                      size: 20,
-                    ),
-                    label: const Text(
-                      'Sign up with Apple',
-                    ),
+                    icon: const Icon(Icons.apple, size: 20, color: Colors.black87),
+                    label: const Text('Sign up with Apple', style: TextStyle(color: Colors.black87)),
                   ),
                 ),
 

@@ -13,34 +13,32 @@ class WelcomePage extends StatelessWidget {
           children: [
             // Area navy di bagian atas, bagian bawahnya melengkung.
             // Avatar diletakkan menimpa lengkungan navy dengan Stack.
-            SizedBox(
-              height: 330,
+            Container(
+              height: 280,
               width: double.infinity,
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Container(
-                    height: 280,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF1C2340),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(130),
-                        bottomRight: Radius.circular(130),
-                      ),
-                    ),
+              decoration: const BoxDecoration(
+                color: Color(0xFF1C2340),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(130),
+                  bottomRight: Radius.circular(130),
+                ),
+              ),
+            ),
+
+            // Avatar naik ke atas agar menimpa lengkungan navy
+            SizedBox(
+              height: 48,
+              child: Transform.translate(
+                offset: const Offset(0, -48),
+              child: CircleAvatar(
+                radius: 48,
+                backgroundColor: Colors.white,
+                child: CircleAvatar(
+                  radius: 40,
+                  backgroundImage: const NetworkImage(
+                    'https://i.pinimg.com/736x/66/e2/24/66e224c075720a95f01747f34b32be17.jpg',
                   ),
-                  CircleAvatar(
-                    radius: 48,
-                    backgroundColor: Colors.white,
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundImage: const NetworkImage(
-                        'https://i.pinimg.com/736x/66/e2/24/66e224c075720a95f01747f34b32be17.jpg',
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
 
