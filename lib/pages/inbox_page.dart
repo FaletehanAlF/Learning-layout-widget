@@ -33,6 +33,14 @@ class InboxPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF6F4EF),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFF6F4EF),
+        elevation: 0,
+        title: const Text(
+          'Inbox',
+          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),
+        ),
+      ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: 2,
         onTap: (index) => _onNavTap(context, index),

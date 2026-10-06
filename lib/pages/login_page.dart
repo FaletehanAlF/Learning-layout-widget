@@ -167,6 +167,22 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
+                const SizedBox(height: 16),
+
+                // Link ke halaman Register tepat di bawah tombol Continue
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RegisterPage()),
+                    );
+                  },
+                  child: const Text(
+                    "Don't have an account? Register",
+                    style: TextStyle(color: Colors.black54, fontSize: 12),
+                  ),
+                ),
+
                 const SizedBox(height: 24),
 
                 // Pemisah "or"
@@ -214,22 +230,6 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {},
                     icon: const Icon(Icons.apple, size: 20, color: Colors.black87),
                     label: const Text('Sign up with Apple', style: TextStyle(color: Colors.black87)),
-                  ),
-                ),
-
-                const SizedBox(height: 12),
-
-                // Link ke halaman Register
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RegisterPage()),
-                    );
-                  },
-                  child: const Text(
-                    "Don't have an account? Register",
-                    style: TextStyle(color: Colors.black54, fontSize: 12),
                   ),
                 ),
 
