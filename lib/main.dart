@@ -45,9 +45,10 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           Container(
-            width: 200,
-            height: 150,
+            width: 400,
+            height: 400,
             color: Colors.amber,
+            child: Image.network("https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSKAVbf6D-HIPh9avrdm3d2cO-MUeJcRHnI_WhpryaAri1l97vC28S2FcUo8j1tz0T9PcnKOGAAaV192ZgwGqfyYH3-HHfhGVT-EkpJrneNZLnDxamsEaFHJa9ONSUXkJgDIh5x0S5G&s=19"),
           ),
           Positioned(
             top: 10,
