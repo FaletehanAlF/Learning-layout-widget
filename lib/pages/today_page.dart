@@ -34,6 +34,14 @@ class TodayPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF6F4EF),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFF6F4EF),
+        elevation: 0,
+        title: const Text(
+          'Today',
+          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),
+        ),
+      ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: 1,
         onTap: (index) => _onNavTap(context, index),
@@ -60,35 +68,6 @@ class TodayPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
-
-              // Baris atas: avatar kecil + icon notifikasi & chat
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 18,
-                    backgroundColor: const Color(0xFFEFF3D9),
-                    child: const Text('FR', style: TextStyle(fontSize: 12)),
-                  ),
-                  const Spacer(),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    child: const Icon(Icons.notifications_none, size: 18),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    child: const Icon(Icons.chat_bubble_outline, size: 18),
-                  ),
-                ],
-              ),
 
               const SizedBox(height: 20),
 
