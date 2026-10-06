@@ -122,6 +122,64 @@ class RegisterPage extends StatelessWidget {
                 ),
               ),
 
+              // Pemisah "or"
+              Row(
+                children: const [
+                  Expanded(child: Divider()),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    child: Text('or', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                  ),
+                  Expanded(child: Divider()),
+                ],
+              ),
+
+              const SizedBox(height: 24),
+
+              // Tombol Google
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    side: const BorderSide(color: Color(0xFFE3E3E3)),
+                  ),
+                  onPressed: () {},
+                  icon: Image.network(
+                    'https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png',
+                    width: 20,
+                    height: 20,
+                  ),
+                  label: const Text('Sign up with Google', style: TextStyle(color: Colors.black87)),
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // Tombol Apple
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    side: const BorderSide(color: Color(0xFFE3E3E3)),
+                  ),
+                  onPressed: () {},
+                  icon: Image.network(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Apple_logo_black.svg/512px-Apple_logo_black.svg.png',
+                    width: 20,
+                    height: 20,
+                  ),
+                  label: const Text('Sign up with Apple', style: TextStyle(color: Colors.black87)),
+                ),
+              ),
+
               const SizedBox(height: 20),
 
               // Link kembali ke halaman login

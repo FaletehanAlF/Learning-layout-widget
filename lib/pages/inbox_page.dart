@@ -62,54 +62,6 @@ class InboxPage extends StatelessWidget {
             children: [
               const SizedBox(height: 16),
 
-              // Baris atas: avatar kecil + icon notifikasi & chat
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 18,
-                    backgroundColor: const Color(0xFFEFF3D9),
-                    child: const Text('FR', style: TextStyle(fontSize: 12)),
-                  ),
-                  const Spacer(),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        const Icon(Icons.notifications_none, size: 18),
-                        Positioned(
-                          right: -2,
-                          top: -2,
-                          child: Container(
-                            width: 6,
-                            height: 6,
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    child: const Icon(Icons.chat_bubble_outline, size: 18),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 24),
-
               // Kartu aktivitas seperti pada desain
               Container(
                 width: double.infinity,
