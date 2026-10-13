@@ -32,7 +32,7 @@ class AuthGate extends StatefulWidget {
 }
 
 class _AuthGateState extends State<AuthGate> {
-  late Future<String?> _tokenFuture;
+  late final Future<String?> _tokenFuture;
 
   @override
   void initState() {
@@ -72,3 +72,4 @@ class _AuthGateState extends State<AuthGate> {
     );
   }
 }
+
