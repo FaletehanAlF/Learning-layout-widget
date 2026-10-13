@@ -33,12 +33,24 @@ class AuthGate extends StatefulWidget {
 }
 
 class _AuthGateState extends State<AuthGate> {
-  late final Future<String?> _tokenFuture;
+  late Future<String?> _tokenFuture;
 
   @override
   void initState() {
     super.initState();
-    _tokenFuture = ApiService.getToken();
+    _tokenFuture = _readToken();
+  }
+
+  // Membaca token dari penyimpanan lokal.
+  // Kalau pembacaan gagal, error dicatat di console lalu dianggap belum login
+  // supaya aplikasi tetap bisa dibuka.
+  Future<String?> _readToken() async {
+    try {
+      return await ApiService.getToken();
+    } catch (e) {
+      debugPrint('Gagal membaca token: $e');
+      return null;
+    }
   }
 
   @override
@@ -46,6 +58,7 @@ class _AuthGateState extends State<AuthGate> {
     return FutureBuilder<String?>(
       future: _tokenFuture,
       builder: (context, snapshot) {
+        // Selagi token belum terbaca, tampilkan loading
         if (snapshot.connectionState != ConnectionState.done) {
           return const Scaffold(
             body: Center(
@@ -53,13 +66,8 @@ class _AuthGateState extends State<AuthGate> {
             ),
           );
         }
-        if (snapshot.hasError) {
-          return const Scaffold(
-            body: Center(
-              child: Text('Gagal memeriksa sesi pengguna'),
-            ),
-          );
-        }
+
+        // Ada token -> langsung ke HomePage, tidak ada -> WelcomePage
         return snapshot.data != null ? const HomePage() : const WelcomePage();
       },
     );
