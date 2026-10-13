@@ -16,6 +16,19 @@ class ApiService {
     return prefs.getString(_tokenKey);
   }
 
+  // Mengambil token dari body respons server.
+  // Mendukung {token: ...}, {access_token: ...}, maupun {data: {...}}.
+  static String readToken(dynamic response) {
+    for (final source in <dynamic>[response, if (response is Map) response['data']]) {
+      if (source is! Map) continue;
+      for (final key in const ['token', 'access_token', 'accessToken']) {
+        final value = source[key];
+        if (value is String && value.isNotEmpty) return value;
+      }
+    }
+    throw Exception('Token tidak ditemukan pada respons server');
+  }
+
   static Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenKey);

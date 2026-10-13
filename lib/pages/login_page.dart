@@ -11,17 +11,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Controller untuk membaca isi TextField email dan password
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  // Menyimpan status password terlihat atau tidak
   bool _isPasswordVisible = false;
 
-  // Status request login sedang berjalan
   bool _loading = false;
 
-  // Controller dibersihkan saat halaman ditutup
   @override
   void dispose() {
     emailController.dispose();
@@ -35,19 +31,15 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Mengirim kredensial ke /auth/login lalu menyimpan token.
   Future<void> _login() async {
-    // 1. Ambil teks dari TextField
     final email = emailController.text.trim();
     final password = passwordController.text;
 
-    // 2. Pastikan email dan password tidak kosong
     if (email.isEmpty || password.isEmpty) {
       _showMessage('Email dan password wajib diisi');
       return;
     }
 
-    // 3. Kirim data ke server
     setState(() => _loading = true);
     try {
       final res = await ApiService.post('/auth/login', {
@@ -55,10 +47,8 @@ class _LoginPageState extends State<LoginPage> {
         'password': password,
       });
 
-      // 4. Simpan token supaya tidak perlu login lagi
       await ApiService.saveToken(ApiService.readToken(res));
 
-      // 5. Berpindah ke HomePage dan hapus halaman login dari riwayat
       if (!mounted) return;
       emailController.clear();
       passwordController.clear();
@@ -68,13 +58,25 @@ class _LoginPageState extends State<LoginPage> {
         (route) => false,
       );
     } catch (e) {
-      // 6. Tampilkan pesan error dari server
       if (!mounted) return;
       _showMessage(e.toString().replaceFirst('Exception: ', ''));
     } finally {
       if (mounted) {
         setState(() => _loading = false);
       }
+    }
+  }
+
+  Future<void> login() async {
+    try {
+      final response = await ApiService.post('/auth/login', {
+        'email': emailController.text.trim(),
+        'password': passwordController.text,
+      });
+
+      debugPrint('$response');
+    } catch (e) {
+      debugPrint('Login gagal: $e');
     }
   }
 
