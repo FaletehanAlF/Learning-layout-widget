@@ -1,21 +1,10 @@
 import 'dart:convert';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
   static const String _baseUrl = 'http://localhost:3000/api';
   static const String _tokenKey = 'token';
-
-  // Controller bersama untuk form login dan register
-  static final TextEditingController emailController = TextEditingController();
-  static final TextEditingController passwordController =
-      TextEditingController();
-
-  static void clearControllers() {
-    emailController.clear();
-    passwordController.clear();
-  }
 
   static Future<void> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();

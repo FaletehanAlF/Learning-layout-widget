@@ -11,11 +11,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // Controller untuk membaca isi TextField email dan password
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   // Menyimpan status password terlihat atau tidak
   bool _isPasswordVisible = false;
 
   // Status request login sedang berjalan
   bool _loading = false;
+
+  // Controller dibersihkan saat halaman ditutup
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   void _showMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -25,28 +37,38 @@ class _LoginPageState extends State<LoginPage> {
 
   // Mengirim kredensial ke /auth/login lalu menyimpan token.
   Future<void> _login() async {
-    final email = ApiService.emailController.text.trim();
-    final password = ApiService.passwordController.text;
+    // 1. Ambil teks dari TextField
+    final email = emailController.text.trim();
+    final password = passwordController.text;
+
+    // 2. Pastikan email dan password tidak kosong
     if (email.isEmpty || password.isEmpty) {
       _showMessage('Email dan password wajib diisi');
       return;
     }
 
+    // 3. Kirim data ke server
     setState(() => _loading = true);
     try {
       final res = await ApiService.post('/auth/login', {
         'email': email,
         'password': password,
       });
+
+      // 4. Simpan token supaya tidak perlu login lagi
       await ApiService.saveToken(ApiService.readToken(res));
+
+      // 5. Berpindah ke HomePage dan hapus halaman login dari riwayat
       if (!mounted) return;
-      ApiService.clearControllers();
+      emailController.clear();
+      passwordController.clear();
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
         (route) => false,
       );
     } catch (e) {
+      // 6. Tampilkan pesan error dari server
       if (!mounted) return;
       _showMessage(e.toString().replaceFirst('Exception: ', ''));
     } finally {
@@ -115,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 8),
 
                 TextField(
-                  controller: ApiService.emailController,
+                  controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: 'email@gmail.com',
@@ -146,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 8),
 
                 TextField(
-                  controller: ApiService.passwordController,
+                  controller: passwordController,
                   obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     hintText: 'min. 8 characters',

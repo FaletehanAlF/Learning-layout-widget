@@ -11,14 +11,20 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController _nameController = TextEditingController();
+  // Controller untuk membaca isi TextField
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   // Status request register sedang berjalan
   bool _loading = false;
 
+  // Controller dibersihkan saat halaman ditutup
   @override
   void dispose() {
-    _nameController.dispose();
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -30,14 +36,18 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // Mengirim data akun ke /auth/register lalu menyimpan token.
   Future<void> _register() async {
-    final name = _nameController.text.trim();
-    final email = ApiService.emailController.text.trim();
-    final password = ApiService.passwordController.text;
+    // 1. Ambil teks dari TextField
+    final name = nameController.text.trim();
+    final email = emailController.text.trim();
+    final password = passwordController.text;
+
+    // 2. Pastikan semua isian terisi
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
       _showMessage('Nama, email, dan password wajib diisi');
       return;
     }
 
+    // 3. Kirim data ke server
     setState(() => _loading = true);
     try {
       final res = await ApiService.post('/auth/register', {
@@ -45,16 +55,22 @@ class _RegisterPageState extends State<RegisterPage> {
         'email': email,
         'password': password,
       });
+
+      // 4. Simpan token supaya langsung masuk ke HomePage
       await ApiService.saveToken(ApiService.readToken(res));
+
+      // 5. Berpindah ke HomePage dan hapus halaman register dari riwayat
       if (!mounted) return;
-      _nameController.clear();
-      ApiService.clearControllers();
+      nameController.clear();
+      emailController.clear();
+      passwordController.clear();
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => const HomePage()),
         (route) => false,
       );
     } catch (e) {
+      // 6. Tampilkan pesan error dari server
       if (!mounted) return;
       _showMessage(e.toString().replaceFirst('Exception: ', ''));
     } finally {
