@@ -14,22 +14,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 final List<String> _logs = <String>[];
 
 void main() {
-  late void Function(String?, {int? wrapWidth}) originalDebugPrint;
-
   setUp(() {
     SharedPreferences.setMockInitialValues(<String, Object>{});
     ApiService.setTestClient(null);
     _logs.clear();
-    originalDebugPrint = debugPrint;
-    debugPrint = (String? message, {int? wrapWidth}) {
-      if (message != null) _logs.add(message);
-    };
   });
 
   tearDown(() {
-    debugPrint = originalDebugPrint;
     ApiService.setTestClient(null);
   });
+
+  // Menangkap output debugPrint selama [body] berjalan, lalu mengembalikannya
+  // ke bawaan. Restore dilakukan di dalam body test (bukan tearDown) karena
+  // flutter_test memeriksa variabel debug tepat setelah body test selesai.
+  Future<T> captureDebugPrint<T>(Future<T> Function() body) async {
+    final original = debugPrint;
+    debugPrint = (String? message, {int? wrapWidth}) {
+      if (message != null) _logs.add(message);
+    };
+    try {
+      return await body();
+    } finally {
+      debugPrint = original;
+    }
+  }
 
   Future<void> isiDanTapLogin(
     WidgetTester tester,
@@ -54,58 +62,62 @@ void main() {
   testWidgets('login gagal: error muncul di terminal dan SnackBar', (
     tester,
   ) async {
-    final client = MockClient((request) async {
-      if (request.url.path.endsWith('/auth/login')) {
-        return http.Response(
-          jsonEncode(<String, dynamic>{
-            'message': 'Email atau password salah',
-          }),
-          401,
-          headers: {'Content-Type': 'application/json'},
-        );
-      }
-      return http.Response('[]', 200);
+    await captureDebugPrint(() async {
+      final client = MockClient((request) async {
+        if (request.url.path.endsWith('/auth/login')) {
+          return http.Response(
+            jsonEncode(<String, dynamic>{
+              'message': 'Email atau password salah',
+            }),
+            401,
+            headers: {'Content-Type': 'application/json'},
+          );
+        }
+        return http.Response('[]', 200);
+      });
+
+      await isiDanTapLogin(tester, 'salah@example.com', client: client);
+
+      expect(
+        _logs.any((l) => l.contains('[LOGIN] Gagal untuk salah@example.com')),
+        isTrue,
+        reason: 'terminal logs: $_logs',
+      );
+      expect(_logs.any((l) => l.contains('Email atau password salah')), isTrue,
+          reason: 'terminal logs: $_logs');
+      expect(find.text('Email atau password salah'), findsOneWidget);
+      expect(find.byType(HomePage), findsNothing);
+      expect(await ApiService.getToken(), isNull);
     });
-
-    await isiDanTapLogin(tester, 'salah@example.com', client: client);
-
-    expect(
-      _logs.any((l) => l.contains('[LOGIN] Gagal untuk salah@example.com')),
-      isTrue,
-      reason: 'terminal logs: $_logs',
-    );
-    expect(_logs.any((l) => l.contains('Email atau password salah')), isTrue,
-        reason: 'terminal logs: $_logs');
-    expect(find.text('Email atau password salah'), findsOneWidget);
-    expect(find.byType(HomePage), findsNothing);
-    expect(await ApiService.getToken(), isNull);
   });
 
   testWidgets('login berhasil: sukses muncul di terminal dan pindah HomePage', (
     tester,
   ) async {
-    final client = MockClient((request) async {
-      if (request.url.path.endsWith('/auth/login')) {
-        return http.Response(
-          jsonEncode(<String, dynamic>{'token': 'tok-123'}),
-          200,
-          headers: {'Content-Type': 'application/json'},
-        );
-      }
-      if (request.url.path.endsWith('/todos')) {
-        return http.Response('[]', 200);
-      }
-      return http.Response('{}', 200);
+    await captureDebugPrint(() async {
+      final client = MockClient((request) async {
+        if (request.url.path.endsWith('/auth/login')) {
+          return http.Response(
+            jsonEncode(<String, dynamic>{'token': 'tok-123'}),
+            200,
+            headers: {'Content-Type': 'application/json'},
+          );
+        }
+        if (request.url.path.endsWith('/todos')) {
+          return http.Response('[]', 200);
+        }
+        return http.Response('{}', 200);
+      });
+
+      await isiDanTapLogin(tester, 'benar@example.com', client: client);
+
+      expect(
+        _logs.any((l) => l.contains('[LOGIN] Berhasil: benar@example.com')),
+        isTrue,
+        reason: 'terminal logs: $_logs',
+      );
+      expect(find.byType(HomePage), findsOneWidget);
+      expect(await ApiService.getToken(), 'tok-123');
     });
-
-    await isiDanTapLogin(tester, 'benar@example.com', client: client);
-
-    expect(
-      _logs.any((l) => l.contains('[LOGIN] Berhasil: benar@example.com')),
-      isTrue,
-      reason: 'terminal logs: $_logs',
-    );
-    expect(find.byType(HomePage), findsOneWidget);
-    expect(await ApiService.getToken(), 'tok-123');
   });
 }

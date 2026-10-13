@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:layout_widget/main.dart';
+import 'package:layout_widget/pages/home_page.dart';
 
 void main() {
   testWidgets('MyApp menampilkan AuthGate lalu WelcomePage saat belum login',
@@ -29,6 +30,8 @@ void main() {
     await tester.pumpWidget(const MyApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('Home'), findsOneWidget);
+    // 'Home' muncul dua kali (judul AppBar + label bottom nav), jadi cek
+    // keberadaan halaman Home secara langsung, bukan lewat teks.
+    expect(find.byType(HomePage), findsOneWidget);
   });
 }

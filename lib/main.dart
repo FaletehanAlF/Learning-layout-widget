@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Menentukan halaman awal aplikasi berdasarkan token yang tersimpan.
 class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
 
@@ -41,9 +40,6 @@ class _AuthGateState extends State<AuthGate> {
     _tokenFuture = _readToken();
   }
 
-  // Membaca token dari penyimpanan lokal.
-  // Kalau pembacaan gagal, error dicatat di console lalu dianggap belum login
-  // supaya aplikasi tetap bisa dibuka.
   Future<String?> _readToken() async {
     try {
       return await ApiService.getToken();
@@ -58,7 +54,6 @@ class _AuthGateState extends State<AuthGate> {
     return FutureBuilder<String?>(
       future: _tokenFuture,
       builder: (context, snapshot) {
-        // Selagi token belum terbaca, tampilkan loading
         if (snapshot.connectionState != ConnectionState.done) {
           return const Scaffold(
             body: Center(
@@ -67,7 +62,6 @@ class _AuthGateState extends State<AuthGate> {
           );
         }
 
-        // Ada token -> langsung ke HomePage, tidak ada -> WelcomePage
         if (snapshot.hasError) {
           debugPrint('Gagal membaca token: ${snapshot.error}');
         }
