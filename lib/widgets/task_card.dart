@@ -52,7 +52,9 @@ class TaskCard extends StatelessWidget {
               ),
             ),
           const SizedBox(width: 12),
-          // Bagian tengah: judul dan waktu
+          // Bagian tengah: judul, deskripsi, dan waktu.
+          // Sebelumnya deskripsi dibuang saat ada waktu (logic bug),
+          // sekarang keduanya ditampilkan bila tersedia.
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,13 +66,17 @@ class TaskCard extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 6),
-                if (description.isNotEmpty)
+                if (description.isNotEmpty) ...[
+                  const SizedBox(height: 6),
                   Text(
                     description,
                     style: const TextStyle(fontSize: 12, color: Colors.grey),
-                  )
-                else
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+                if (time.isNotEmpty) ...[
+                  const SizedBox(height: 6),
                   Row(
                     children: [
                       const Icon(Icons.calendar_today, size: 12, color: Color(0xFFC9A25E)),
@@ -85,6 +91,7 @@ class TaskCard extends StatelessWidget {
                       const Icon(Icons.notifications_none, size: 12, color: Colors.grey),
                     ],
                   ),
+                ],
               ],
             ),
           ),

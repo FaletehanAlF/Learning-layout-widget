@@ -33,7 +33,20 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _loadProfile() async {
     setState(() => _loading = true);
     try {
-      final res = await ApiService.get('/profile');
+      // Coba beberapa endpoint umum; backend berbeda-beda
+      // (/auth/profile, /profile, /auth/me). Pakai yang pertama berhasil.
+      dynamic res;
+      Object? lastError;
+      for (final endpoint in const ['/auth/profile', '/profile', '/auth/me']) {
+        try {
+          res = await ApiService.get(endpoint);
+          lastError = null;
+          break;
+        } catch (e) {
+          lastError = e;
+        }
+      }
+      if (lastError != null) throw lastError;
       final data = res is Map ? res['data'] : res;
       if (!mounted) return;
       setState(() {
@@ -42,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     } catch (e) {
       if (!mounted) return;
-      debugPrint(e.toString().replaceFirst('Exception: ', ''));
+      debugPrint('[PROFILE] Gagal memuat profil: ${e.toString().replaceFirst('Exception: ', '')}');
       setState(() => _profile = {});
     } finally {
       if (mounted) {
@@ -56,6 +69,10 @@ class _ProfilePageState extends State<ProfilePage> {
       final value = _profile[key];
       if (value is String && value.trim().isNotEmpty) {
         return value;
+      }
+      // Backend kadang mengembalikan angka (mis. phone: 628123...).
+      if (value is num) {
+        return value.toString();
       }
     }
     return fallback;
@@ -162,9 +179,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   CircleAvatar(
                     radius: 50,
+                    backgroundColor: const Color(0xFFE7E0FB),
                     backgroundImage: const NetworkImage(
                       'https://i.pinimg.com/736x/66/e2/24/66e224c075720a95f01747f34b32be17.jpg',
                     ),
+                    onBackgroundImageError: (error, stackTrace) {},
+                    child: const Icon(Icons.person, size: 40, color: Colors.grey),
                   ),
                   Container(
                     padding: const EdgeInsets.all(6),

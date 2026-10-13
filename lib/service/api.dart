@@ -124,10 +124,11 @@ class ApiService {
   }
 
   static Future<dynamic> get(String endpoint) async {
+    final headers = await _headers();
     final response = await _send(
       (client) => client.get(
         Uri.parse('$_baseUrl$endpoint'),
-        headers: await _headers(),
+        headers: headers,
       ),
     );
     return _handleResponse(response);
@@ -137,11 +138,13 @@ class ApiService {
     String endpoint,
     Map<String, dynamic> data,
   ) async {
+    final headers = await _headers();
+    final body = jsonEncode(data);
     final response = await _send(
       (client) => client.post(
         Uri.parse('$_baseUrl$endpoint'),
-        headers: await _headers(),
-        body: jsonEncode(data),
+        headers: headers,
+        body: body,
       ),
     );
     return _handleResponse(response);
@@ -151,21 +154,24 @@ class ApiService {
     String endpoint,
     Map<String, dynamic> data,
   ) async {
+    final headers = await _headers();
+    final body = jsonEncode(data);
     final response = await _send(
       (client) => client.put(
         Uri.parse('$_baseUrl$endpoint'),
-        headers: await _headers(),
-        body: jsonEncode(data),
+        headers: headers,
+        body: body,
       ),
     );
     return _handleResponse(response);
   }
 
   static Future<dynamic> delete(String endpoint) async {
+    final headers = await _headers();
     final response = await _send(
       (client) => client.delete(
         Uri.parse('$_baseUrl$endpoint'),
-        headers: await _headers(),
+        headers: headers,
       ),
     );
     return _handleResponse(response);

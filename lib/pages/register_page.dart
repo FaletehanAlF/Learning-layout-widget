@@ -292,10 +292,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     side: const BorderSide(color: Color(0xFFE3E3E3)),
                   ),
                   onPressed: () {},
-                  icon: Image.network(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv_-CwxoQcTdL_h0fGDNwtqfo9y18Fu7cE-p9pvCJ23w&s',
+                  icon: Image.asset(
+                    'assets/images/apple_logo.png',
                     width: 20,
                     height: 20,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.apple, size: 20),
                   ),
                   label: const Text('Sign up with Apple', style: TextStyle(color: Colors.black87)),
                 ),

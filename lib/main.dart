@@ -68,7 +68,12 @@ class _AuthGateState extends State<AuthGate> {
         }
 
         // Ada token -> langsung ke HomePage, tidak ada -> WelcomePage
-        return snapshot.data != null ? const HomePage() : const WelcomePage();
+        if (snapshot.hasError) {
+          debugPrint('Gagal membaca token: ${snapshot.error}');
+        }
+        final token = snapshot.data;
+        final loggedIn = token != null && token.isNotEmpty;
+        return loggedIn ? const HomePage() : const WelcomePage();
       },
     );
   }

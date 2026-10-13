@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
       });
     } catch (e) {
       if (!mounted) return;
-      debugPrint(e.toString().replaceFirst('Exception: ', ''));
+      debugPrint('[HOME] Gagal memuat todos: ${e.toString().replaceFirst('Exception: ', '')}');
       setState(() => _useFallback = true);
     } finally {
       if (mounted) {
@@ -95,14 +95,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildTodoCard(Map<String, dynamic> todo, int index) {
-    final title = _pick(todo, ['title', 'task', 'name', 'description']);
+    // Judul TIDAK mengambil dari 'description' supaya tidak duplikat
+    // (bug lama: title == description saat todo hanya punya description).
+    final title = _pick(todo, ['title', 'task', 'name']);
     final description = _pick(todo, ['description', 'notes', 'detail']);
     final due = _formatDate(_pick(todo, ['due_date', 'dueDate', 'date', 'deadline']));
 
     return TaskCard(
-      title: title.isEmpty ? 'Untitled task' : title,
+      title: title.isEmpty
+          ? (description.isEmpty ? 'Untitled task' : description)
+          : title,
       time: due,
-      description: due.isEmpty ? description : '',
+      // Tampilkan deskripsi asli hanya bila berbeda dari judul.
+      description: (description.isNotEmpty && description != title)
+          ? description
+          : '',
       color: _taskColors[index % _taskColors.length],
     );
   }
