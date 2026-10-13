@@ -6,9 +6,9 @@ class ApiService {
   static const String _baseUrl = 'http://localhost:3000/api';
   static const String _tokenKey = 'token';
 
-  static Future<void> saveToken(String tokenName) async {
+  static Future<void> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_tokenKey, tokenName);
+    await prefs.setString(_tokenKey, token);
   }
 
   static Future<String?> getToken() async {
@@ -30,27 +30,10 @@ class ApiService {
     };
   }
 
-  // Membaca token dari respons login/register, baik di dalam
-  // data.token maupun langsung di token.
-  static String readToken(dynamic response) {
-    final body = response is Map ? response : const {};
-    final data = body['data'];
-    final token = data is Map ? data['token'] : body['token'];
-    if (token is! String || token.isEmpty) {
-      throw Exception('Token tidak ditemukan pada respons server');
-    }
-    return token;
-  }
-
   static dynamic _handleResponse(http.Response response) {
-    dynamic body;
-    if (response.body.isNotEmpty) {
-      try {
-        body = jsonDecode(response.body);
-      } on FormatException {
-        body = null;
-      }
-    }
+    final body = response.body.isNotEmpty
+        ? jsonDecode(response.body)
+        : null;
     if (response.statusCode >= 200 &&
         response.statusCode < 300) {
       return body;
