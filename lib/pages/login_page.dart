@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Your email address',
+                    'Email',
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -142,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: 'email@gmail.com',
+                    hintText: 'example@gmail.com',
                     hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                     border: OutlineInputBorder(
@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Choose a password',
+                    'Password',
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -204,7 +204,6 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 20),
 
-                // Tombol Continue, navigasi ke HomePage
                 SizedBox(
                   width: double.infinity,
                   height: 48,
@@ -231,7 +230,6 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 16),
 
-                // Link ke halaman Register tepat di bawah tombol Continue
                 TextButton(
                   onPressed: () {
                     Navigator.push(
