@@ -40,6 +40,11 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
+    if (!_isValidEmail(email)) {
+      _showMessage('Format email tidak valid');
+      return;
+    }
+
     setState(() => _loading = true);
     try {
       final res = await ApiService.post('/auth/login', {
@@ -47,7 +52,10 @@ class _LoginPageState extends State<LoginPage> {
         'password': password,
       });
 
+      // Ambil token dari respons: {data: {token: ...}} / {token: ...}.
       await ApiService.saveToken(ApiService.readToken(res));
+
+      debugPrint('[LOGIN] Berhasil: $email');
 
       if (!mounted) return;
       emailController.clear();
@@ -58,8 +66,10 @@ class _LoginPageState extends State<LoginPage> {
         (route) => false,
       );
     } catch (e) {
+      final message = e.toString().replaceFirst('Exception: ', '');
+      debugPrint('[LOGIN] Gagal untuk $email: $message');
       if (!mounted) return;
-      _showMessage(e.toString().replaceFirst('Exception: ', ''));
+      _showMessage(message);
     } finally {
       if (mounted) {
         setState(() => _loading = false);
@@ -67,17 +77,9 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<void> login() async {
-    try {
-      final response = await ApiService.post('/auth/login', {
-        'email': emailController.text.trim(),
-        'password': passwordController.text,
-      });
-
-      debugPrint('$response');
-    } catch (e) {
-      debugPrint('Login gagal: $e');
-    }
+  bool _isValidEmail(String email) {
+    final regex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+    return regex.hasMatch(email);
   }
 
   @override
@@ -85,10 +87,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        // LayoutBuilder untuk membaca lebar ruang yang tersedia
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // Mobile: lebar penuh. Desktop/Web: form dibatasi lebarnya.
             double maxWidth =
                 constraints.maxWidth >= 600 ? 480 : double.infinity;
             return Center(
@@ -101,11 +101,9 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 const SizedBox(height: 50),
 
-                // Logo Leafboard
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Logo leaf hijau di kiri teks Leafboard
                     const Icon(Icons.eco, size: 26, color: Color(0xFF58CC5A)),
                     const SizedBox(width: 8),
                     const Text(
@@ -184,7 +182,6 @@ class _LoginPageState extends State<LoginPage> {
                         size: 18,
                         color: Colors.grey,
                       ),
-                      // Tukar status terlihat/tidaknya password
                       onPressed: () {
                         setState(() {
                           _isPasswordVisible = !_isPasswordVisible;
@@ -270,10 +267,12 @@ class _LoginPageState extends State<LoginPage> {
                       side: const BorderSide(color: Color(0xFFE3E3E3)),
                     ),
                     onPressed: () {},
-                    icon: Image.network(
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP0LqqItjj6kjPy2bhfx_Cs3kIqIEesiN8aMbEXoL-zw&s',
+                    icon: Image.asset(
+                      'assets/images/google_logo.png',
                       width: 20,
                       height: 20,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.g_mobiledata, size: 20),
                     ),
                     label: const Text('Sign up with Google', style: TextStyle(color: Colors.black87)),
                   ),
@@ -292,10 +291,12 @@ class _LoginPageState extends State<LoginPage> {
                       side: const BorderSide(color: Color(0xFFE3E3E3)),
                     ),
                     onPressed: () {},
-                    icon: Image.network(
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv_-CwxoQcTdL_h0fGDNwtqfo9y18Fu7cE-p9pvCJ23w&s',
+                    icon: Image.asset(
+                      'assets/images/apple_logo.png',
                       width: 20,
                       height: 20,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.apple, size: 20),
                     ),
                     label: const Text('Sign up with Apple', style: TextStyle(color: Colors.black87)),
                   ),

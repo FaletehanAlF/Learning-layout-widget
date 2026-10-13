@@ -19,6 +19,8 @@ class _RegisterPageState extends State<RegisterPage> {
   // Status request register sedang berjalan
   bool _loading = false;
 
+  bool _isPasswordVisible = false;
+
   // Controller dibersihkan saat halaman ditutup
   @override
   void dispose() {
@@ -44,6 +46,16 @@ class _RegisterPageState extends State<RegisterPage> {
     // 2. Pastikan semua isian terisi
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
       _showMessage('Nama, email, dan password wajib diisi');
+      return;
+    }
+
+    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email)) {
+      _showMessage('Format email tidak valid');
+      return;
+    }
+
+    if (password.length < 8) {
+      _showMessage('Password minimal 8 karakter');
       return;
     }
 
@@ -177,11 +189,24 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 8),
               TextField(
                 controller: passwordController,
-                obscureText: true,
+                obscureText: !_isPasswordVisible,
                 decoration: InputDecoration(
                   hintText: 'min. 8 characters',
                   hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
-                  suffixIcon: const Icon(Icons.visibility_off_outlined, size: 18, color: Colors.grey),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                      size: 18,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(24),
@@ -242,10 +267,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     side: const BorderSide(color: Color(0xFFE3E3E3)),
                   ),
                   onPressed: () {},
-                  icon: Image.network(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP0LqqItjj6kjPy2bhfx_Cs3kIqIEesiN8aMbEXoL-zw&s',
+                  icon: Image.asset(
+                    'assets/images/google_logo.png',
                     width: 20,
                     height: 20,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.g_mobiledata, size: 20),
                   ),
                   label: const Text('Sign up with Google', style: TextStyle(color: Colors.black87)),
                 ),
