@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:layout_widget/pages/today_page.dart';
 import 'pages/home_page.dart';
 import 'pages/welcome_page.dart';
 import 'service/api.dart';
@@ -59,15 +60,21 @@ class _AuthGateState extends State<AuthGate> {
             body: Center(
               child: CircularProgressIndicator(),
             ),
-          );
+          );  
         }
 
         if (snapshot.hasError) {
-          debugPrint('Gagal membaca token: ${snapshot.error}');
+          return Scaffold(
+            body: Center(
+              child: Text('Gagal Memeriksa Sesi Pengguna'),
+            ),
+          );
         }
-        final token = snapshot.data;
-        final loggedIn = token != null && token.isNotEmpty;
-        return loggedIn ? const HomePage() : const WelcomePage();
+
+        return snapshot.data != null 
+        ? const TodayPage()
+        : const WelcomePage();
+        
       },
     );
   }
