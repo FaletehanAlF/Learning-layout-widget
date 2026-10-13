@@ -1,11 +1,98 @@
 import 'package:flutter/material.dart';
+import '../service/api.dart';
 import '../widgets/bottom_nav.dart';
 import 'home_page.dart';
+import 'login_page.dart';
 import 'today_page.dart';
 import 'inbox_page.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  // Data profil dari endpoint terlindungi, kosong berarti pakai desain bawaan.
+  Map<String, dynamic> _profile = {};
+
+  bool _loading = true;
+
+  static const String _fallbackName = 'Alex Gilles';
+  static const String _fallbackPhone = '+7 904 599 XXX 11';
+  static const String _fallbackEmail = 'alex@gmail.com';
+  static const String _fallbackAddress = 'St. Petersburg, Vos...';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfile();
+  }
+
+  Future<void> _loadProfile() async {
+    setState(() => _loading = true);
+    try {
+      final res = await ApiService.get('/profile');
+      final data = res is Map ? res['data'] : res;
+      if (!mounted) return;
+      setState(() {
+        _profile =
+            data is Map ? Map<String, dynamic>.from(data) : <String, dynamic>{};
+      });
+    } catch (e) {
+      if (!mounted) return;
+      debugPrint(e.toString().replaceFirst('Exception: ', ''));
+      setState(() => _profile = {});
+    } finally {
+      if (mounted) {
+        setState(() => _loading = false);
+      }
+    }
+  }
+
+  String _value(List<String> keys, String fallback) {
+    for (final key in keys) {
+      final value = _profile[key];
+      if (value is String && value.trim().isNotEmpty) {
+        return value;
+      }
+    }
+    return fallback;
+  }
+
+  // Menghapus token lokal lalu kembali ke halaman login.
+  Future<void> _logout() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Apakah kamu yakin ingin logout?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Batal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Logout'),
+          ),
+        ],
+      ),
+    );
+    if (confirm != true) return;
+
+    await ApiService.logout();
+
+    if (!mounted) return;
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginPage()),
+      (route) => false,
+    );
+  }
 
   // Pindah halaman sesuai tab yang ditekan
   void _onNavTap(BuildContext context, int index) {
@@ -40,6 +127,13 @@ class ProfilePage extends StatelessWidget {
           'Profile',
           style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),
         ),
+        actions: [
+          IconButton(
+            tooltip: 'Logout',
+            onPressed: _logout,
+            icon: const Icon(Icons.logout, color: Colors.black87, size: 20),
+          ),
+        ],
       ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: 3,
@@ -85,10 +179,19 @@ class ProfilePage extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              const Text(
-                'Alex Gilles',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+              Text(
+                _value(['name', 'username', 'full_name'], _fallbackName),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               ),
+
+              if (_loading) ...[
+                const SizedBox(height: 12),
+                const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ],
 
               const SizedBox(height: 28),
 
@@ -102,12 +205,44 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    _infoRow(Icons.phone_outlined, 'PHONE', '+7 904 599 XXX 11'),
+                    _infoRow(
+                      Icons.phone_outlined,
+                      'PHONE',
+                      _value(['phone', 'phone_number', 'telp'], _fallbackPhone),
+                    ),
                     const Divider(),
-                    _infoRow(Icons.email_outlined, 'EMAIL', 'alex@gmail.com'),
+                    _infoRow(
+                      Icons.email_outlined,
+                      'EMAIL',
+                      _value(['email'], _fallbackEmail),
+                    ),
                     const Divider(),
-                    _infoRow(Icons.location_on_outlined, 'ADDRESS', 'St. Petersburg, Vos...'),
+                    _infoRow(
+                      Icons.location_on_outlined,
+                      'ADDRESS',
+                      _value(['address', 'city'], _fallbackAddress),
+                    ),
                   ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // Tombol logout mengakhiri sesi dan menghapus token lokal
+              SizedBox(
+                width: double.infinity,
+                height: 44,
+                child: OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    side: const BorderSide(color: Color(0xFFE3E3E3)),
+                  ),
+                  onPressed: _logout,
+                  icon: const Icon(Icons.logout, size: 16),
+                  label: const Text('Logout'),
                 ),
               ),
             ],

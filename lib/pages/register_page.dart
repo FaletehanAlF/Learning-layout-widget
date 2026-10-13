@@ -1,9 +1,68 @@
 import 'package:flutter/material.dart';
+import '../service/api.dart';
 import 'home_page.dart';
 import 'login_page.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController _nameController = TextEditingController();
+
+  // Status request register sedang berjalan
+  bool _loading = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  // Mengirim data akun ke /auth/register lalu menyimpan token.
+  Future<void> _register() async {
+    final name = _nameController.text.trim();
+    final email = ApiService.emailController.text.trim();
+    final password = ApiService.passwordController.text;
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+      _showMessage('Nama, email, dan password wajib diisi');
+      return;
+    }
+
+    setState(() => _loading = true);
+    try {
+      final res = await ApiService.post('/auth/register', {
+        'name': name,
+        'email': email,
+        'password': password,
+      });
+      await ApiService.saveToken(ApiService.readToken(res));
+      if (!mounted) return;
+      _nameController.clear();
+      ApiService.clearControllers();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const HomePage()),
+        (route) => false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      _showMessage(e.toString().replaceFirst('Exception: ', ''));
+    } finally {
+      if (mounted) {
+        setState(() => _loading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +109,36 @@ class RegisterPage extends StatelessWidget {
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
+                  'Your name',
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  hintText: 'Ralph Gilles',
+                  hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
                   'Your email address',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                 ),
               ),
               const SizedBox(height: 8),
               TextField(
+                controller: ApiService.emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintText: 'email@gmail.com',
                   hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
@@ -77,6 +160,7 @@ class RegisterPage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               TextField(
+                controller: ApiService.passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'min. 8 characters',
@@ -104,14 +188,15 @@ class RegisterPage extends StatelessWidget {
                     ),
                     elevation: 0,
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_forward, size: 16),
-                  label: const Text('Register'),
+                  onPressed: _loading ? null : _register,
+                  icon: _loading
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.arrow_forward, size: 16),
+                  label: Text(_loading ? 'Loading...' : 'Register'),
                 ),
               ),
 

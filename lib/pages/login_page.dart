@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../service/api.dart';
 import 'home_page.dart';
 import 'register_page.dart';
 
@@ -12,6 +13,48 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   // Menyimpan status password terlihat atau tidak
   bool _isPasswordVisible = false;
+
+  // Status request login sedang berjalan
+  bool _loading = false;
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  // Mengirim kredensial ke /auth/login lalu menyimpan token.
+  Future<void> _login() async {
+    final email = ApiService.emailController.text.trim();
+    final password = ApiService.passwordController.text;
+    if (email.isEmpty || password.isEmpty) {
+      _showMessage('Email dan password wajib diisi');
+      return;
+    }
+
+    setState(() => _loading = true);
+    try {
+      final res = await ApiService.post('/auth/login', {
+        'email': email,
+        'password': password,
+      });
+      await ApiService.saveToken(ApiService.readToken(res));
+      if (!mounted) return;
+      ApiService.clearControllers();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      _showMessage(e.toString().replaceFirst('Exception: ', ''));
+    } finally {
+      if (mounted) {
+        setState(() => _loading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +115,8 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 8),
 
                 TextField(
+                  controller: ApiService.emailController,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: 'email@gmail.com',
                     hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
@@ -101,6 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 8),
 
                 TextField(
+                  controller: ApiService.passwordController,
                   obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     hintText: 'min. 8 characters',
@@ -147,16 +193,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       elevation: 0,
                     ),
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.arrow_forward, size: 16),
-                    label: const Text('Continue'),
+                    onPressed: _loading ? null : _login,
+                    icon: _loading
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.arrow_forward, size: 16),
+                    label: Text(_loading ? 'Loading...' : 'Continue'),
                   ),
                 ),
 

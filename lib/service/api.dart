@@ -1,0 +1,114 @@
+import 'dart:convert';
+import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+class ApiService {
+  static const String _baseUrl = 'http://localhost:3000/api';
+  static const String _tokenKey = 'token';
+
+  // Controller bersama untuk form login dan register
+  static final TextEditingController emailController = TextEditingController();
+  static final TextEditingController passwordController =
+      TextEditingController();
+
+  static void clearControllers() {
+    emailController.clear();
+    passwordController.clear();
+  }
+
+  static Future<void> saveToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_tokenKey, token);
+  }
+
+  static Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_tokenKey);
+  }
+
+  static Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_tokenKey);
+  }
+
+  static Future<Map<String, String>> _headers() async {
+    final token = await getToken();
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
+  }
+
+  // Membaca token dari respons login/register, baik di dalam
+  // data.token maupun langsung di token.
+  static String readToken(dynamic response) {
+    final body = response is Map ? response : const {};
+    final data = body['data'];
+    final token = data is Map ? data['token'] : body['token'];
+    if (token is! String || token.isEmpty) {
+      throw Exception('Token tidak ditemukan pada respons server');
+    }
+    return token;
+  }
+
+  static dynamic _handleResponse(http.Response response) {
+    dynamic body;
+    if (response.body.isNotEmpty) {
+      try {
+        body = jsonDecode(response.body);
+      } on FormatException {
+        body = null;
+      }
+    }
+    if (response.statusCode >= 200 &&
+        response.statusCode < 300) {
+      return body;
+    }
+    final message = body is Map
+        ? body['message']
+        : null;
+    throw Exception(message ?? 'Terjadi kesalahan');
+  }
+
+  static Future<dynamic> get(String endpoint) async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl$endpoint'),
+      headers: await _headers(),
+    );
+    return _handleResponse(response);
+  }
+
+  static Future<dynamic> post(
+    String endpoint,
+    Map<String, dynamic> data,
+  ) async {
+    final response = await http.post(
+      Uri.parse('$_baseUrl$endpoint'),
+      headers: await _headers(),
+      body: jsonEncode(data),
+    );
+    return _handleResponse(response);
+  }
+
+  static Future<dynamic> put(
+    String endpoint,
+    Map<String, dynamic> data,
+  ) async {
+    final response = await http.put(
+      Uri.parse('$_baseUrl$endpoint'),
+      headers: await _headers(),
+      body: jsonEncode(data),
+    );
+    return _handleResponse(response);
+  }
+
+  static Future<dynamic> delete(String endpoint) async {
+    final response = await http.delete(
+      Uri.parse('$_baseUrl$endpoint'),
+      headers: await _headers(),
+    );
+    return _handleResponse(response);
+  }
+}
