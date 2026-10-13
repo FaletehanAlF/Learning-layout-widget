@@ -242,8 +242,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     side: const BorderSide(color: Color(0xFFE3E3E3)),
                   ),
                   onPressed: () {},
-                  icon: Image.network(
-                    'https://yt3.googleusercontent.com/bAseQlKvNmjdLQrvYWm_q3QDp8C8YKyYI-nYJewgOkPi0JU1_3X9oFgjrEdzkOlXzLGFxFbnsw=s900-c-k-c0x00ffffff-no-rj',
+                  icon: Image.asset(
+                    'assets/images/google_logo.png',
                     width: 20,
                     height: 20,
                   ),
@@ -265,8 +265,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     side: const BorderSide(color: Color(0xFFE3E3E3)),
                   ),
                   onPressed: () {},
-                  icon: Image.network(
-                    'https://cdn-icons-png.flaticon.com/512/0/747.png',
+                  icon: Image.asset(
+                    'assets/images/apple_logo.png',
                     width: 20,
                     height: 20,
                   ),
