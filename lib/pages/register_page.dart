@@ -242,8 +242,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     side: const BorderSide(color: Color(0xFFE3E3E3)),
                   ),
                   onPressed: () {},
-                  icon: Image.asset(
-                    'assets/images/google_logo.png',
+                  icon: Image.network(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP0LqqItjj6kjPy2bhfx_Cs3kIqIEesiN8aMbEXoL-zw&s',
                     width: 20,
                     height: 20,
                   ),
@@ -265,8 +265,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     side: const BorderSide(color: Color(0xFFE3E3E3)),
                   ),
                   onPressed: () {},
-                  icon: Image.asset(
-                    'assets/images/apple_logo.png',
+                  icon: Image.network(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv_-CwxoQcTdL_h0fGDNwtqfo9y18Fu7cE-p9pvCJ23w&s',
                     width: 20,
                     height: 20,
                   ),
