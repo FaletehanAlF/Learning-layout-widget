@@ -131,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 8),
               TextField(
-                controller: _nameController,
+                controller: nameController,
                 decoration: InputDecoration(
                   hintText: 'Ralph Gilles',
                   hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
@@ -153,7 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 8),
               TextField(
-                controller: ApiService.emailController,
+                controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintText: 'email@gmail.com',
@@ -176,7 +176,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 8),
               TextField(
-                controller: ApiService.passwordController,
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'min. 8 characters',
