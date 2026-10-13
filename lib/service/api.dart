@@ -6,9 +6,9 @@ class ApiService {
   static const String _baseUrl = 'http://localhost:3000/api';
   static const String _tokenKey = 'token';
 
-  static Future<void> saveToken(String token) async {
+  static Future<void> saveToken(String tokenName) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_tokenKey, token);
+    await prefs.setString(_tokenKey, tokenName);
   }
 
   static Future<String?> getToken() async {
