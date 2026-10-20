@@ -8,7 +8,6 @@ import 'profile_page.dart';
 class TodayPage extends StatelessWidget {
   const TodayPage({super.key});
 
-  // Pindah halaman sesuai tab yang ditekan
   void _onNavTap(BuildContext context, int index) {
     Widget page;
     switch (index) {
@@ -22,7 +21,7 @@ class TodayPage extends StatelessWidget {
         page = const ProfilePage();
         break;
       default:
-        return; // sudah di Today
+        return;
     }
     Navigator.pushReplacement(
       context,
@@ -36,7 +35,9 @@ class TodayPage extends StatelessWidget {
       backgroundColor: const Color(0xFFF6F4EF),
       appBar: AppBar(
         backgroundColor: const Color(0xFFF6F4EF),
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
+        scrolledUnderElevation: 0,
         title: const Text(
           'Today',
           style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),
@@ -53,79 +54,82 @@ class TodayPage extends StatelessWidget {
         child: const Icon(Icons.add, color: Colors.white),
       ),
       body: SafeArea(
-        // LayoutBuilder untuk membaca lebar ruang yang tersedia
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // Mobile: lebar penuh. Desktop/Web: batasi agar konten terpusat.
-            double maxWidth =
+            final double maxWidth =
                 constraints.maxWidth >= 600 ? 480 : double.infinity;
-            return Center(
+            return Align(
+              alignment: Alignment.topCenter,
               child: SizedBox(
                 width: maxWidth,
+                height: double.infinity,
                 child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
 
-              const SizedBox(height: 20),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEFEDE8),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(Icons.search, size: 18, color: Colors.grey),
+                            SizedBox(width: 8),
+                            Text(
+                              'Search',
+                              style: TextStyle(color: Colors.grey, fontSize: 13),
+                            ),
+                          ],
+                        ),
+                      ),
 
-              // Search field
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEFEDE8),
-                  borderRadius: BorderRadius.circular(12),
+                      const SizedBox(height: 20),
+
+                      const TaskCard(
+                        title: 'Design Wireframe',
+                        time: 'Friday 08:00 AM - 09:00 AM',
+                        color: Color(0xFFE58E8E),
+                      ),
+                      const TaskCard(
+                        title: 'Meet with client',
+                        time: 'Friday 10:00 AM - 11:00 AM',
+                        color: Color(0xFF8EA5E5),
+                      ),
+                      const TaskCard(
+                        title: "April's content selection",
+                        description: "In april's content selection...",
+                        selected: true,
+                        leadingIcon: Icons.description_outlined,
+                      ),
+                      const TaskCard(
+                        title: 'Design Wireframe',
+                        time: 'Friday 08:00 AM - 09:00 AM',
+                        color: Color(0xFFE58E8E),
+                      ),
+                      const TaskCard(
+                        title: 'Meet with client',
+                        time: 'Friday 10:00 AM - 11:00 AM',
+                        color: Color(0xFF8EA5E5),
+                      ),
+                      const TaskCard(
+                        title: 'Brainstorming session - ideas',
+                        time: 'Saturday 08:00 AM - 17:00 PM',
+                        color: Color(0xFF8FD08F),
+                      ),
+
+                      const SizedBox(height: 80),
+                    ],
+                  ),
                 ),
-                child: const Row(
-                  children: [
-                    Icon(Icons.search, size: 18, color: Colors.grey),
-                    SizedBox(width: 8),
-                    Text('Search', style: TextStyle(color: Colors.grey, fontSize: 13)),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              const TaskCard(
-                title: 'Design Wireframe',
-                time: 'Friday 08:00 AM - 09:00 AM',
-                color: Color(0xFFE58E8E),
-              ),
-              const TaskCard(
-                title: 'Meet with client',
-                time: 'Friday 10:00 AM - 11:00 AM',
-                color: Color(0xFF8EA5E5),
-              ),
-              const TaskCard(
-                title: "April's content selection",
-                description: "In april's content selection...",
-                selected: true,
-                leadingIcon: Icons.description_outlined,
-              ),
-              const TaskCard(
-                title: 'Design Wireframe',
-                time: 'Friday 08:00 AM - 09:00 AM',
-                color: Color(0xFFE58E8E),
-              ),
-              const TaskCard(
-                title: 'Meet with client',
-                time: 'Friday 10:00 AM - 11:00 AM',
-                color: Color(0xFF8EA5E5),
-              ),
-              const TaskCard(
-                title: 'Brainstorming session - ideas',
-                time: 'Saturday 08:00 AM - 17:00 PM',
-                color: Color(0xFF8FD08F),
-              ),
-
-              const SizedBox(height: 80),
-            ],
-          ),
-        ),
               ),
             );
           },

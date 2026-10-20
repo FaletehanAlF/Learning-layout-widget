@@ -7,7 +7,6 @@ import 'profile_page.dart';
 class InboxPage extends StatelessWidget {
   const InboxPage({super.key});
 
-  // Pindah halaman sesuai tab yang ditekan
   void _onNavTap(BuildContext context, int index) {
     Widget page;
     switch (index) {
@@ -21,7 +20,7 @@ class InboxPage extends StatelessWidget {
         page = const ProfilePage();
         break;
       default:
-        return; // sudah di Inbox
+        return;
     }
     Navigator.pushReplacement(
       context,
@@ -35,7 +34,9 @@ class InboxPage extends StatelessWidget {
       backgroundColor: const Color(0xFFF6F4EF),
       appBar: AppBar(
         backgroundColor: const Color(0xFFF6F4EF),
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
+        scrolledUnderElevation: 0,
         title: const Text(
           'Inbox',
           style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),
@@ -46,60 +47,71 @@ class InboxPage extends StatelessWidget {
         onTap: (index) => _onNavTap(context, index),
       ),
       body: SafeArea(
-        // LayoutBuilder untuk membaca lebar ruang yang tersedia
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // Mobile: lebar penuh. Desktop/Web: batasi agar konten terpusat.
-            double maxWidth =
+            final double maxWidth =
                 constraints.maxWidth >= 600 ? 480 : double.infinity;
-            return Center(
+            return Align(
+              alignment: Alignment.topCenter,
               child: SizedBox(
                 width: maxWidth,
+                height: double.infinity,
                 child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16),
 
-              // Kartu aktivitas seperti pada desain
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 22,
-                      backgroundColor: const Color(0xFFA99B5B),
-                      child: const Icon(Icons.notifications, color: Colors.white, size: 20),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'Aktifitas Login baru',
-                            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Lorem Ipsum dolor is amet for a...',
-                            style: TextStyle(fontSize: 12, color: Color(0xFFC9A25E)),
-                          ),
-                        ],
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Row(
+                          children: [
+                            const CircleAvatar(
+                              radius: 22,
+                              backgroundColor: Color(0xFFA99B5B),
+                              child: Icon(
+                                Icons.notifications,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    'Aktifitas Login baru',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    'Lorem Ipsum dolor is amet for a...',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xFFC9A25E),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+
+                      const SizedBox(height: 80),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
               ),
             );
           },

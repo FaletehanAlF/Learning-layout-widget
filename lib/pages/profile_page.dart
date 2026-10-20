@@ -14,7 +14,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // Data profil dari endpoint terlindungi, kosong berarti pakai desain bawaan.
   Map<String, dynamic> _profile = {};
 
   bool _loading = true;
@@ -33,8 +32,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _loadProfile() async {
     setState(() => _loading = true);
     try {
-      // Coba beberapa endpoint umum; backend berbeda-beda
-      // (/auth/profile, /profile, /auth/me). Pakai yang pertama berhasil.
       dynamic res;
       Object? lastError;
       for (final endpoint in const ['/auth/profile', '/profile', '/auth/me']) {
@@ -55,7 +52,9 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     } catch (e) {
       if (!mounted) return;
-      debugPrint('[PROFILE] Gagal memuat profil: ${e.toString().replaceFirst('Exception: ', '')}');
+      debugPrint(
+        '[PROFILE] Gagal memuat profil: ${e.toString().replaceFirst('Exception: ', '')}',
+      );
       setState(() => _profile = {});
     } finally {
       if (mounted) {
@@ -70,7 +69,6 @@ class _ProfilePageState extends State<ProfilePage> {
       if (value is String && value.trim().isNotEmpty) {
         return value;
       }
-      // Backend kadang mengembalikan angka (mis. phone: 628123...).
       if (value is num) {
         return value.toString();
       }
@@ -78,7 +76,6 @@ class _ProfilePageState extends State<ProfilePage> {
     return fallback;
   }
 
-  // Menghapus token lokal lalu kembali ke halaman login.
   Future<void> _logout() async {
     final confirm = await showDialog<bool>(
       context: context,
@@ -111,7 +108,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // Pindah halaman sesuai tab yang ditekan
   void _onNavTap(BuildContext context, int index) {
     Widget page;
     switch (index) {
@@ -125,11 +121,43 @@ class _ProfilePageState extends State<ProfilePage> {
         page = const InboxPage();
         break;
       default:
-        return; // sudah di Profile
+        return;
     }
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => page),
+    );
+  }
+
+  Widget _infoRow(IconData icon, String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        children: [
+          Icon(icon, size: 20, color: Colors.grey),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(fontSize: 10, color: Colors.grey),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.chevron_right, size: 18, color: Colors.grey),
+        ],
+      ),
     );
   }
 
@@ -139,7 +167,9 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: const Color(0xFFF6F4EF),
       appBar: AppBar(
         backgroundColor: const Color(0xFFF6F4EF),
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
+        scrolledUnderElevation: 0,
         title: const Text(
           'Profile',
           style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),
@@ -157,117 +187,114 @@ class _ProfilePageState extends State<ProfilePage> {
         onTap: (index) => _onNavTap(context, index),
       ),
       body: SafeArea(
-        // LayoutBuilder untuk membaca lebar ruang yang tersedia
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // Mobile: lebar penuh. Desktop/Web: batasi agar konten terpusat.
-            double maxWidth =
+            final double maxWidth =
                 constraints.maxWidth >= 600 ? 480 : double.infinity;
-            return Center(
+            return Align(
+              alignment: Alignment.topCenter,
               child: SizedBox(
                 width: maxWidth,
+                height: double.infinity,
                 child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              const SizedBox(height: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 30),
 
-              // Avatar besar dengan icon edit kecil
-              Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.bottomRight,
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: const Color(0xFFE7E0FB),
-                    backgroundImage: const NetworkImage(
-                      'https://i.pinimg.com/736x/66/e2/24/66e224c075720a95f01747f34b32be17.jpg',
-                    ),
-                    onBackgroundImageError: (error, stackTrace) {},
-                    child: const Icon(Icons.person, size: 40, color: Colors.grey),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          const _ProfileAvatar(),
+                          Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.edit, size: 14),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      Text(
+                        _value(['name', 'username', 'full_name'], _fallbackName),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+
+                      if (_loading) ...[
+                        const SizedBox(height: 12),
+                        const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                      ],
+
+                      const SizedBox(height: 28),
+
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
+                          children: [
+                            _infoRow(
+                              Icons.phone_outlined,
+                              'PHONE',
+                              _value(
+                                ['phone', 'phone_number', 'telp'],
+                                _fallbackPhone,
+                              ),
+                            ),
+                            const Divider(),
+                            _infoRow(
+                              Icons.email_outlined,
+                              'EMAIL',
+                              _value(['email'], _fallbackEmail),
+                            ),
+                            const Divider(),
+                            _infoRow(
+                              Icons.location_on_outlined,
+                              'ADDRESS',
+                              _value(['address', 'city'], _fallbackAddress),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      SizedBox(
+                        width: double.infinity,
+                        height: 44,
+                        child: OutlinedButton.icon(
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            side: const BorderSide(color: Color(0xFFE3E3E3)),
+                          ),
+                          onPressed: _logout,
+                          icon: const Icon(Icons.logout, size: 16),
+                          label: const Text('Logout'),
+                        ),
+                      ),
+
+                      const SizedBox(height: 80),
+                    ],
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(Icons.edit, size: 14),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 16),
-
-              Text(
-                _value(['name', 'username', 'full_name'], _fallbackName),
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-              ),
-
-              if (_loading) ...[
-                const SizedBox(height: 12),
-                const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
                 ),
-              ],
-
-              const SizedBox(height: 28),
-
-              // Kartu informasi seperti pada desain
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  children: [
-                    _infoRow(
-                      Icons.phone_outlined,
-                      'PHONE',
-                      _value(['phone', 'phone_number', 'telp'], _fallbackPhone),
-                    ),
-                    const Divider(),
-                    _infoRow(
-                      Icons.email_outlined,
-                      'EMAIL',
-                      _value(['email'], _fallbackEmail),
-                    ),
-                    const Divider(),
-                    _infoRow(
-                      Icons.location_on_outlined,
-                      'ADDRESS',
-                      _value(['address', 'city'], _fallbackAddress),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // Tombol logout mengakhiri sesi dan menghapus token lokal
-              SizedBox(
-                width: double.infinity,
-                height: 44,
-                child: OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.red,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    side: const BorderSide(color: Color(0xFFE3E3E3)),
-                  ),
-                  onPressed: _logout,
-                  icon: const Icon(Icons.logout, size: 16),
-                  label: const Text('Logout'),
-                ),
-              ),
-            ],
-          ),
-        ),
               ),
             );
           },
@@ -275,28 +302,36 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+}
 
-  // Baris informasi sederhana: icon, label, isi, dan chevron
-  Widget _infoRow(IconData icon, String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Row(
-        children: [
-          Icon(icon, size: 20, color: Colors.grey),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
-                const SizedBox(height: 4),
-                Text(value, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
-              ],
-            ),
-          ),
-          const Icon(Icons.chevron_right, size: 18, color: Colors.grey),
-        ],
-      ),
+class _ProfileAvatar extends StatefulWidget {
+  const _ProfileAvatar({super.key});
+
+  @override
+  State<_ProfileAvatar> createState() => _ProfileAvatarState();
+}
+
+class _ProfileAvatarState extends State<_ProfileAvatar> {
+  static const String _imageUrl =
+      'https://i.pinimg.com/736x/66/e2/24/66e224c075720a95f01747f34b32be17.jpg';
+
+  bool _hasError = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 50,
+      backgroundColor: const Color(0xFFE7E0FB),
+      backgroundImage: _hasError ? null : const NetworkImage(_imageUrl),
+      onBackgroundImageError: _hasError
+          ? null
+          : (Object error, StackTrace? stackTrace) {
+              if (!mounted) return;
+              setState(() => _hasError = true);
+            },
+      child: _hasError
+          ? const Icon(Icons.person, size: 40, color: Colors.grey)
+          : null,
     );
   }
 }

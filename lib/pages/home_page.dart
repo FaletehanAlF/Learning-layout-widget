@@ -6,8 +6,6 @@ import 'today_page.dart';
 import 'inbox_page.dart';
 import 'profile_page.dart';
 
-// Halaman Home dengan BottomNavigationBar.
-// Tab navigasi Home -> Today -> Inbox -> Profile.
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -16,12 +14,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Data task yang diambil dari endpoint terlindungi GET /todos.
   List<Map<String, dynamic>> _todos = [];
 
   bool _loading = true;
 
-  // Saat request gagal atau data kosong, tampilan kembali ke desain bawaan.
   bool _useFallback = true;
 
   static const List<Color> _taskColors = [
@@ -41,7 +37,9 @@ class _HomePageState extends State<HomePage> {
     try {
       final res = await ApiService.get('/todos');
       final data = res is Map ? res['data'] : res;
-      final items = data is List ? data.whereType<Map<String, dynamic>>().toList() : <Map<String, dynamic>>[];
+      final items = data is List
+          ? data.whereType<Map<String, dynamic>>().toList()
+          : <Map<String, dynamic>>[];
       if (!mounted) return;
       setState(() {
         _todos = items;
@@ -49,7 +47,9 @@ class _HomePageState extends State<HomePage> {
       });
     } catch (e) {
       if (!mounted) return;
-      debugPrint('[HOME] Gagal memuat todos: ${e.toString().replaceFirst('Exception: ', '')}');
+      debugPrint(
+        '[HOME] Gagal memuat todos: ${e.toString().replaceFirst('Exception: ', '')}',
+      );
       setState(() => _useFallback = true);
     } finally {
       if (mounted) {
@@ -58,7 +58,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // Mengambil nilai teks pertama yang tersedia dari beberapa nama field.
   String _pick(Map<String, dynamic> data, List<String> keys) {
     for (final key in keys) {
       final value = data[key];
@@ -95,18 +94,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildTodoCard(Map<String, dynamic> todo, int index) {
-    // Judul TIDAK mengambil dari 'description' supaya tidak duplikat
-    // (bug lama: title == description saat todo hanya punya description).
     final title = _pick(todo, ['title', 'task', 'name']);
     final description = _pick(todo, ['description', 'notes', 'detail']);
-    final due = _formatDate(_pick(todo, ['due_date', 'dueDate', 'date', 'deadline']));
+    final due = _formatDate(
+      _pick(todo, ['due_date', 'dueDate', 'date', 'deadline']),
+    );
 
     return TaskCard(
       title: title.isEmpty
           ? (description.isEmpty ? 'Untitled task' : description)
           : title,
       time: due,
-      // Tampilkan deskripsi asli hanya bila berbeda dari judul.
       description: (description.isNotEmpty && description != title)
           ? description
           : '',
@@ -114,7 +112,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // Daftar task dari server, atau desain bawaan bila data tidak tersedia.
   Widget _buildTaskList() {
     if (_useFallback) {
       return const Column(
@@ -176,7 +173,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // Pindah halaman sesuai tab yang ditekan
   void _onNavTap(BuildContext context, int index) {
     Widget page;
     switch (index) {
@@ -190,7 +186,7 @@ class _HomePageState extends State<HomePage> {
         page = const ProfilePage();
         break;
       default:
-        return; // sudah di Home
+        return;
     }
     Navigator.pushReplacement(
       context,
@@ -204,7 +200,9 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: const Color(0xFFF6F4EF),
       appBar: AppBar(
         backgroundColor: const Color(0xFFF6F4EF),
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
+        scrolledUnderElevation: 0,
         title: const Text(
           'Home',
           style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),
@@ -221,62 +219,67 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.add, color: Colors.white),
       ),
       body: SafeArea(
-        // LayoutBuilder untuk membaca lebar ruang yang tersedia
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // Mobile: lebar penuh. Desktop/Web: batasi agar konten terpusat.
-            double maxWidth =
+            final double maxWidth =
                 constraints.maxWidth >= 600 ? 480 : double.infinity;
-            return Center(
+            return Align(
+              alignment: Alignment.topCenter,
               child: SizedBox(
                 width: maxWidth,
+                height: double.infinity,
                 child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 24),
 
-              const SizedBox(height: 24),
+                      const Text(
+                        'Morning, Ralph',
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      const Text(
+                        'April 27, 2026',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
 
-              const Text(
-                'Morning, Ralph',
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                'April 27, 2026',
-                style: TextStyle(fontSize: 12, color: Colors.grey),
-              ),
+                      const SizedBox(height: 20),
 
-              const SizedBox(height: 20),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEFEDE8),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(Icons.search, size: 18, color: Colors.grey),
+                            SizedBox(width: 8),
+                            Text(
+                              'Search',
+                              style: TextStyle(color: Colors.grey, fontSize: 13),
+                            ),
+                          ],
+                        ),
+                      ),
 
-              // Search field
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEFEDE8),
-                  borderRadius: BorderRadius.circular(12),
+                      const SizedBox(height: 24),
+
+                      _buildTaskList(),
+
+                      const SizedBox(height: 80),
+                    ],
+                  ),
                 ),
-                child: const Row(
-                  children: [
-                    Icon(Icons.search, size: 18, color: Colors.grey),
-                    SizedBox(width: 8),
-                    Text('Search', style: TextStyle(color: Colors.grey, fontSize: 13)),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // Daftar task: dari API bila tersedia, jika tidak desain bawaan
-              _buildTaskList(),
-
-              const SizedBox(height: 80),
-            ],
-          ),
-        ),
               ),
             );
           },
