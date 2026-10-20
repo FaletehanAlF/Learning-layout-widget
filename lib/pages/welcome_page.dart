@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'login_page.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -11,8 +12,9 @@ class WelcomePage extends StatelessWidget {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final double maxWidth =
-                constraints.maxWidth >= 600 ? 480 : double.infinity;
+            final double maxWidth = constraints.maxWidth >= 600
+                ? 480
+                : double.infinity;
             return Align(
               alignment: Alignment.topCenter,
               child: SizedBox(

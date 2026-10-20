@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../widgets/bottom_nav.dart';
 import '../widgets/task_card.dart';
 import 'home_page.dart';
@@ -56,8 +57,9 @@ class TodayPage extends StatelessWidget {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final double maxWidth =
-                constraints.maxWidth >= 600 ? 480 : double.infinity;
+            final double maxWidth = constraints.maxWidth >= 600
+                ? 480
+                : double.infinity;
             return Align(
               alignment: Alignment.topCenter,
               child: SizedBox(
@@ -86,7 +88,10 @@ class TodayPage extends StatelessWidget {
                             SizedBox(width: 8),
                             Text(
                               'Search',
-                              style: TextStyle(color: Colors.grey, fontSize: 13),
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 13,
+                              ),
                             ),
                           ],
                         ),
