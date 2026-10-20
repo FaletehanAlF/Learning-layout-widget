@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:layout_widget/pages/today_page.dart';
 import 'pages/home_page.dart';
+
 import 'pages/welcome_page.dart';
 import 'service/api.dart';
 
@@ -72,7 +73,7 @@ class _AuthGateState extends State<AuthGate> {
         }
 
         return snapshot.data != null 
-        ? const TodayPage()
+        ? const HomePage()
         : const WelcomePage();
         
       },

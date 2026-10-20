@@ -10,7 +10,7 @@ class ApiService {
   // untuk HP fisik pakai IP LAN laptop (mis. http://192.168.1.5:3000/api).
   static const String _baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://localhost:3000/api',
+    defaultValue: 'https://zvb7qdl8-3000.asse.devtunnels.ms/api',
   );
   static const String _tokenKey = 'token';
 

@@ -1,5 +1,3 @@
-// Test: memastikan pesan login tampil di terminal/console dan alur login benar.
-// Memakai MockClient (tanpa socket/server asli) supaya stabil di flutter test.
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
