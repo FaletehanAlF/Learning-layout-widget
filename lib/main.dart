@@ -19,19 +19,19 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: Colors.indigo,
         useMaterial3: true,
       ),
-      home: const AuthGate(),
+      home: const PermissionGate(),
     );
   }
 }
 
-class AuthGate extends StatefulWidget {
-  const AuthGate({super.key});
+class PermissionGate extends StatefulWidget {
+  const PermissionGate({super.key});
 
   @override
-  State<AuthGate> createState() => _AuthGateState();
+  State<PermissionGate> createState() => _PermissionGateState();
 }
 
-class _AuthGateState extends State<AuthGate> {
+class _PermissionGateState extends State<PermissionGate> {
   late final Future<String?> _tokenFuture;
 
   @override
