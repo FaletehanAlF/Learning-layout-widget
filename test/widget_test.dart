@@ -12,11 +12,9 @@ void main() {
 
     await tester.pumpWidget(const MyApp());
 
-    // Saat token dibaca, tampil loading dulu.
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
     await tester.pumpAndSettle();
 
-    // Belum ada token -> WelcomePage dengan tombol Get Started.
     expect(find.text('Leafboard'), findsWidgets);
     expect(find.text('Get Started for Free'), findsOneWidget);
   });
@@ -30,8 +28,6 @@ void main() {
     await tester.pumpWidget(const MyApp());
     await tester.pumpAndSettle();
 
-    // 'Home' muncul dua kali (judul AppBar + label bottom nav), jadi cek
-    // keberadaan halaman Home secara langsung, bukan lewat teks.
     expect(find.byType(HomePage), findsOneWidget);
   });
 }

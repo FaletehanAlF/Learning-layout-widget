@@ -305,7 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 class _ProfileAvatar extends StatefulWidget {
-  const _ProfileAvatar({super.key});
+  const _ProfileAvatar();
 
   @override
   State<_ProfileAvatar> createState() => _ProfileAvatarState();

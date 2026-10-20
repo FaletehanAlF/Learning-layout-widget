@@ -22,9 +22,6 @@ void main() {
     ApiService.setTestClient(null);
   });
 
-  // Menangkap output debugPrint selama [body] berjalan, lalu mengembalikannya
-  // ke bawaan. Restore dilakukan di dalam body test (bukan tearDown) karena
-  // flutter_test memeriksa variabel debug tepat setelah body test selesai.
   Future<T> captureDebugPrint<T>(Future<T> Function() body) async {
     final original = debugPrint;
     debugPrint = (String? message, {int? wrapWidth}) {

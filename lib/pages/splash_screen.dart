@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Splash screen sederhana: logo + loading, dipakai saat aplikasi dibuka.
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 

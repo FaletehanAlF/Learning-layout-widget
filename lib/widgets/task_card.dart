@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Kartu task dipakai di Home dan Today.
-// [title]   = judul task, contoh "Design Wireframe"
-// [time]    = info waktu di bawah judul, contoh "Friday 08:00 AM - 09:00 AM"
-// [color]   = warna lingkaran di kiri kartu
-// [selected]= true untuk kartu yang sedang aktif (background ungu)
-// [description] = teks pengganti waktu (untuk kartu yang aktif)
-// [leadingIcon] = icon pengganti lingkaran warna
 class TaskCard extends StatelessWidget {
   final String title;
   final String time;
@@ -38,7 +31,6 @@ class TaskCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Bagian kiri: lingkaran warna atau icon
           if (leadingIcon != null)
             Icon(leadingIcon, size: 18, color: Colors.black87)
           else
@@ -52,9 +44,6 @@ class TaskCard extends StatelessWidget {
               ),
             ),
           const SizedBox(width: 12),
-          // Bagian tengah: judul, deskripsi, dan waktu.
-          // Sebelumnya deskripsi dibuang saat ada waktu (logic bug),
-          // sekarang keduanya ditampilkan bila tersedia.
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,16 +68,27 @@ class TaskCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      const Icon(Icons.calendar_today, size: 12, color: Color(0xFFC9A25E)),
+                      const Icon(
+                        Icons.calendar_today,
+                        size: 12,
+                        color: Color(0xFFC9A25E),
+                      ),
                       const SizedBox(width: 6),
                       Flexible(
                         child: Text(
                           time,
-                          style: const TextStyle(fontSize: 11, color: Color(0xFFC9A25E)),
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Color(0xFFC9A25E),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 6),
-                      const Icon(Icons.notifications_none, size: 12, color: Colors.grey),
+                      const Icon(
+                        Icons.notifications_none,
+                        size: 12,
+                        color: Colors.grey,
+                      ),
                     ],
                   ),
                 ],

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:layout_widget/pages/today_page.dart';
 import 'pages/home_page.dart';
-
 import 'pages/welcome_page.dart';
 import 'service/api.dart';
 
@@ -61,23 +59,37 @@ class _AuthGateState extends State<AuthGate> {
             body: Center(
               child: CircularProgressIndicator(),
             ),
-          );  
+          );
         }
 
         if (snapshot.hasError) {
           return Scaffold(
             body: Center(
-              child: Text('Gagal Memeriksa Sesi Pengguna'),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.cloud_off,
+                      size: 40,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Gagal Memeriksa Sesi Pengguna',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14, color: Colors.black54),
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
         }
 
-        return snapshot.data != null 
-        ? const HomePage()
-        : const WelcomePage();
-        
+        return snapshot.data != null ? const HomePage() : const WelcomePage();
       },
     );
   }
 }
-
